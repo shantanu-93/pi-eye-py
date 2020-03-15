@@ -16,3 +16,4 @@ def upload_results(result_files):
     for result_file in result_files:
         data = open(result_file, 'rb')
         results_bucket.put_object(Key=result_file, Body=data)
+
