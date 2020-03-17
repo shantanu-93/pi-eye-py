@@ -1,18 +1,30 @@
 import boto3
-
+from global_constants import GlobalConstants
 # SQS client
-sqs = boto3.client('sqs')
+# max_queue_messages = 10
+# message_bodies = []
+sqs = boto3.client('sqs', region_name=GlobalConstants().REGION,
+        aws_access_key_id=GlobalConstants().ACCESS_KEY,
+        aws_secret_access_key=GlobalConstants().SECRET_KEY)
 
 # Create a queue
-def create_queue(q_name, delay_sec = None, retention_pd = None):
+def create_queue(q_name, delay_sec = None, retention_pd = None, fifo = False):
     response = sqs.create_queue(
         QueueName=q_name,
         Attributes={
             'DelaySeconds': '60' if delay_sec is None else str(delay_sec),
-            'MessageRetentionPeriod': '86400' if retention_pd is None else str(retention_pd) #
+            'MessageRetentionPeriod': '86400' if retention_pd is None else str(retention_pd),
+            'FifoQueue': 'false' if fifo is False else 'true'
         }
     )
+    print(response['QueueUrl'])
 
+def update_queue(q_name, attribute, value):
+    queue_url = get_queue_url(q_name)
+    sqs.set_queue_attributes(
+    QueueUrl=queue_url,
+    Attributes={attribute:value} #'ReceiveMessageWaitTimeSeconds': '20'
+    )
 # List all queues
 def get_all_queues():
     response = sqs.list_queues()
@@ -85,4 +97,10 @@ def delete_msg(q_name, message, receipt_handle):
     print('Deleted received message: %s' % message)
     return message
 
-
+if __name__ == "__main__":
+    # create_queue(GlobalConstants().ANALYSIS_QUEUE, fifo=True)
+    # update_queue(GlobalConstants().UPLOAD_QUEUE, 'ReceiveMessageWaitTimeSeconds', '20')
+    # delete_queue('content-upload-q')
+    qs = get_all_queues()
+    for q in qs:
+        print(q)
