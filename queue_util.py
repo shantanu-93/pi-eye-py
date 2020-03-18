@@ -64,9 +64,10 @@ def send_msg(q_name, msg_attribs, msg_body):
     # Send message to SQS queue
     response = sqs.send_message(
         QueueUrl=queue_url,
-        DelaySeconds=10,
+        DelaySeconds=0,
         MessageAttributes= msg_attribs,
-        MessageBody=(msg_body)
+        MessageBody=msg_body,
+        MessageGroupId='1'
     )
 
     return response['MessageId']
@@ -79,8 +80,8 @@ def receive_msg(q_name):
         AttributeNames=['SentTimestamp'],
         MaxNumberOfMessages=1,
         MessageAttributeNames=['All'],
-        VisibilityTimeout=0,
-        WaitTimeSeconds=0
+        VisibilityTimeout=60,
+        WaitTimeSeconds=20
     )
     message = response['Messages'][0]
     receipt_handle = message['ReceiptHandle']
@@ -104,3 +105,11 @@ if __name__ == "__main__":
     qs = get_all_queues()
     for q in qs:
         print(q)
+    # message_attrib = {
+    #         'Title': {
+    #             'DataType': 'String',
+    #             'StringValue': 'The Whistler'
+    #         }
+    #     }
+    # msg_body = ''
+    # send_msg(GlobalConstants().ANALYSIS_QUEUE, message_attrib, msg_body)

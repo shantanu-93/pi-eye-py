@@ -4,35 +4,39 @@ from datetime import datetime
 import subprocess
 import boto3
 from global_constants import GlobalConstants
-from queues import *
+from queue_util import send_msg
+import upload as upload
 from find_most_recent import allFilesIn
 from time import sleep
 
 
 global_const = GlobalConstants()
 
-def create_q():
+# def create_q():
     # create analysis queue
-    analysis_queue = create_queue(global_const.ANALYSIS_QUEUE)
-    queue_url =get_queue_url(global_const.ANALYSIS_QUEUE)
+    # analysis_queue = create_queue(global_const.ANALYSIS_QUEUE, fifo=True)
+    # queue_url = get_queue_url(global_const.ANALYSIS_QUEUE)
 
 if __name__ == '__main__':
 
-    create_q()
+    # create_q()
 
-    if(os.path.exists('.\\analysis_queue_videos')):
+    if(os.path.exists('analysis_queue_videos')):
         print("Directory already exits!")
     else:
         subprocess.call(['mkdir','analysis_queue_videos'])
 
-    os.chdir(".\\record_videos")
+    os.chdir("record_videos")
 
     try:
         while True:
 
             # code to find the latest file
-            latest_subdir = max(allFilesIn('.'), key=os.path.getmtime)
+            latest_subdir = max(os.listdir(), key=os.path.getmtime)
             print(latest_subdir)
+
+            upload.upload_videos([os.path.join(os.getcwd(), latest_subdir)])
+
             # code to move to /analysis_queue_videos and push into analysis queue
 
             MessageAttributes={
@@ -46,9 +50,7 @@ if __name__ == '__main__':
                 }
             }
 
-            MessageBody=(
-                    'testing hahaha'
-                )
+            MessageBody='testing hahaha'
             ret = send_msg(global_const.ANALYSIS_QUEUE,MessageAttributes,MessageBody)
 
             subprocess.call(['mv',latest_subdir,'..\\analysis_queue_videos'])
