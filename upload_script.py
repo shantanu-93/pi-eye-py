@@ -5,7 +5,7 @@ import subprocess
 import boto3
 from global_constants import GlobalConstants
 from queue_util import send_msg
-import upload as upload
+import s3_util as s3_util
 from find_most_recent import allFilesIn
 from time import sleep
 
@@ -35,7 +35,7 @@ if __name__ == '__main__':
             latest_subdir = max(os.listdir(), key=os.path.getmtime)
             print(latest_subdir)
 
-            upload.upload_videos([os.path.join(os.getcwd(), latest_subdir)])
+            s3_util.upload_videos([os.path.join(os.getcwd(), latest_subdir)])
 
             # code to move to /analysis_queue_videos and push into analysis queue
 
