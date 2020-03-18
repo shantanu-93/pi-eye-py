@@ -12,12 +12,11 @@ class GlobalConstants:
         self.MONITOR_QUEUE = 'ec2-monitor-q.fifo'
         self.SHUTDOWN_QUEUE = 'ec2-shutdown-q.fifo'
         #
-        self.REGION = 'us-east-1'
-        with open(os.path.expanduser('~/keys/access.txt'), 'r') as fin:
-            access_key = fin.readline()
-        with open(os.path.expanduser('~/keys/secret.txt'), 'r') as fin:
-            secret_key = fin.readline()
-        self.ACCESS_KEY = access_key
-        self.SECRET_KEY = secret_key
+        # self.REGION = 'us-east-1'
+        # with open(os.path.expanduser('~/keys/access.txt'), 'r') as fin:
+        #     access_key = fin.readline()
+        # with open(os.path.expanduser('~/keys/secret.txt'), 'r') as fin:
+        #     secret_key = fin.readline()
+        # self.ACCESS_KEY = access_key
+        # self.SECRET_KEY = secret_key
 
-        

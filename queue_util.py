@@ -3,9 +3,9 @@ from global_constants import GlobalConstants
 # SQS client
 # max_queue_messages = 10
 # message_bodies = []
-sqs = boto3.client('sqs', region_name=GlobalConstants().REGION,
-        aws_access_key_id=GlobalConstants().ACCESS_KEY,
-        aws_secret_access_key=GlobalConstants().SECRET_KEY)
+sqs = boto3.client('sqs')#, region_name=GlobalConstants().REGION,
+        # aws_access_key_id=GlobalConstants().ACCESS_KEY,
+        # aws_secret_access_key=GlobalConstants().SECRET_KEY)
 
 # Create a queue
 def create_queue(q_name, delay_sec = None, retention_pd = None, fifo = False):
@@ -40,7 +40,7 @@ def delete_queue(q_name):
     q_url = get_queue_url(q_name)
     if q_url is not None:
         sqs.delete_queue(QueueUrl=q_url)
-    
+
 def send_msg(q_name, msg_attribs, msg_body):
     """
     sample_msg_attrib = {
