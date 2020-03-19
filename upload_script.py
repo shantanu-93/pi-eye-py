@@ -4,13 +4,12 @@ from datetime import datetime
 import subprocess
 import boto3
 from global_constants import GlobalConstants
-from queue_util import send_msg
+from queue_util import *
 import s3_util as s3_util
 from find_most_recent import allFilesIn
 from time import sleep
 
 
-global_const = GlobalConstants()
 
 # def create_q():
     # create analysis queue
@@ -19,7 +18,11 @@ global_const = GlobalConstants()
 
 if __name__ == '__main__':
 
-    # create_q()
+    sqs = boto3.client('sqs',region_name='us-east-1')
+    sqs.create_queue(QueueName=GlobalConstants().ANALYSIS_QUEUE,Attributes={'FifoQueue': 'true','ContentBasedDeduplication': 'true'})
+    queues = sqs.list_queues(QueueNamePrefix=GlobalConstants().ANALYSIS_QUEUE)
+    queue_url = queues['QueueUrls'][0]
+    # print(queue_url)
 
     if(os.path.exists('analysis_queue_videos')):
         print("Directory already exits!")
@@ -34,8 +37,8 @@ if __name__ == '__main__':
             # code to find the latest file
             latest_subdir = max(os.listdir(), key=os.path.getmtime)
             print(latest_subdir)
-
-            s3_util.upload_videos([os.path.join(os.getcwd(), latest_subdir)])
+            print(os.path.join(os.getcwd(), latest_subdir))
+            # s3_util.upload_videos(os.path.join(os.getcwd(), latest_subdir))
 
             # code to move to /analysis_queue_videos and push into analysis queue
 
@@ -51,12 +54,13 @@ if __name__ == '__main__':
             }
 
             MessageBody='testing hahaha'
-            ret = send_msg(global_const.ANALYSIS_QUEUE,MessageAttributes,MessageBody)
+            ret = sqs.send_message(QueueUrl=queue_url,MessageBody=MessageBody,MessageAttributes=MessageAttributes,MessageGroupId='msggpid1')
 
             subprocess.call(['mv',latest_subdir,'..\\analysis_queue_videos'])
 
             if not os.listdir('.'):
                 print("Directory is empty!")
+                break
             else:
                 continue
 
