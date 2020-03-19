@@ -4,17 +4,27 @@ from datetime import datetime
 import subprocess
 import boto3
 from global_constants import GlobalConstants
-from queue_util import *
+import queue_util as queue_util
 import s3_util as s3_util
 from find_most_recent import allFilesIn
 from time import sleep
-
-
 
 # def create_q():
     # create analysis queue
     # analysis_queue = create_queue(global_const.ANALYSIS_QUEUE, fifo=True)
     # queue_url = get_queue_url(global_const.ANALYSIS_QUEUE)
+
+def get_file_numbers(dir):
+    return len(os.listdir(dir))
+
+def controller(number):
+    if number <= 2:
+        return number,0
+    else:
+        return int(number/3), number-int(number/3)
+
+
+
 
 if __name__ == '__main__':
 
@@ -25,46 +35,47 @@ if __name__ == '__main__':
     # print(queue_url)
 
     if(os.path.exists('analysis_queue_videos')):
-        print("Directory already exits!")
+        print("/analysis_queue_videos!")
+    elif(os.path.exists('pi_videos')):
+        print("/pi_videos already exits!")
     else:
         subprocess.call(['mkdir','analysis_queue_videos'])
+        subprocess.call(['mkdir','pi_videos'])
 
     os.chdir("record_videos")
 
     try:
         while True:
 
-            # code to find the latest file
-            latest_subdir = max(os.listdir(), key=os.path.getmtime)
-            print(latest_subdir)
-            print(os.path.join(os.getcwd(), latest_subdir))
-            # s3_util.upload_videos(os.path.join(os.getcwd(), latest_subdir))
+            # assign videos to pi and ec2
+            file_number = get_file_numbers('.')
+            pi,ec2 = controller(file_number)
+            print(pi,ec2)
 
-            # code to move to /analysis_queue_videos and push into analysis queue
+            # upload videos to s3
+            for files in os.listdir('.'):
+                s3_util.upload_videos([os.path.join(os.getcwd(), files)])
 
-            MessageAttributes={
-                'Title': {
-                    'DataType': 'String',
-                    'StringValue': str(latest_subdir)
-                },
-                'Status': {
-                    'DataType': 'String',
-                    'StringValue': 'idle'
-                }
-            }
+            # move videos to /pi_videos
+            for _ in range(pi):
+                latest_subdir = max(os.listdir(), key=os.path.getmtime)
+                # print(latest_subdir)
+                subprocess.call(['mv',latest_subdir,'..\\pi_videos'])
 
-            MessageBody='testing hahaha'
-            ret = sqs.send_message(QueueUrl=queue_url,MessageBody=MessageBody,MessageAttributes=MessageAttributes,MessageGroupId='msggpid1')
+            # move videos to /analysis_queue_videos and push to sqs
+            for _ in range(ec2):
+                latest_subdir = max(os.listdir(), key=os.path.getmtime)
+                # print(latest_subdir)
+                MessageBody=str(latest_subdir)
+                ret = sqs.send_message(QueueUrl=queue_url,MessageBody=MessageBody,MessageGroupId='msggpid1')
 
-            subprocess.call(['mv',latest_subdir,'..\\analysis_queue_videos'])
+                subprocess.call(['mv',latest_subdir,'..\\analysis_queue_videos'])
 
+            # polling /record_videos and check if it's empty
             if not os.listdir('.'):
                 print("Directory is empty!")
-                break
-            else:
-                continue
 
-            sleep(3600)
+            sleep(60)
 
 
 
