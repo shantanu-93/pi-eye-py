@@ -1,11 +1,12 @@
 import boto3
 from global_constants import GlobalConstants
+import time
+const = GlobalConstants()
+
 # SQS client
-# max_queue_messages = 10
-# message_bodies = []
-sqs = boto3.client('sqs')#, region_name=GlobalConstants().REGION,
-        # aws_access_key_id=GlobalConstants().ACCESS_KEY,
-        # aws_secret_access_key=GlobalConstants().SECRET_KEY)
+sqs = boto3.client('sqs', region_name=const.REGION,
+        aws_access_key_id=const.ACCESS_KEY,
+        aws_secret_access_key=const.SECRET_KEY)
 
 # Create a queue
 def create_queue(q_name, delay_sec = None, retention_pd = None, fifo = False):
@@ -98,18 +99,32 @@ def delete_msg(q_name, message, receipt_handle):
     print('Deleted received message: %s' % message)
     return message
 
+
+def get_msg_count(q_name):
+    response = sqs.get_queue_attributes(
+        QueueUrl=get_queue_url(q_name),
+        AttributeNames=[
+            'ApproximateNumberOfMessages'
+        ]
+    )
+    return response['Attributes']['ApproximateNumberOfMessages']
+
 if __name__ == "__main__":
-    # create_queue(GlobalConstants().ANALYSIS_QUEUE, fifo=True)
-    # update_queue(GlobalConstants().UPLOAD_QUEUE, 'ReceiveMessageWaitTimeSeconds', '20')
+    # create_queue(const.ANALYSIS_QUEUE, fifo=True)
+    # update_queue(const.UPLOAD_QUEUE, 'ReceiveMessageWaitTimeSeconds', '20')
     # delete_queue('content-upload-q')
-    qs = get_all_queues()
-    for q in qs:
-        print(q)
-    # message_attrib = {
-    #         'Title': {
-    #             'DataType': 'String',
-    #             'StringValue': 'The Whistler'
-    #         }
-    #     }
-    # msg_body = ''
-    # send_msg(GlobalConstants().ANALYSIS_QUEUE, message_attrib, msg_body)
+    # qs = get_all_queues()
+    # for q in qs:
+    #     print(q)
+
+    # push 10 dummy messages to queue
+    for i in range(10):
+        message_attrib = {
+                str(time.clock()) : {
+                    'DataType': 'String',
+                    'StringValue': str(i)
+                }
+            }
+        msg_body = 'This is message '+str(i)
+        print(send_msg(const.ANALYSIS_QUEUE, message_attrib, msg_body))
+        print()
