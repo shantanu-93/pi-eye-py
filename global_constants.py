@@ -20,3 +20,16 @@ class GlobalConstants:
         self.ACCESS_KEY = access_key
         self.SECRET_KEY = secret_key
 
+        # minimum number of requests above which to create a new instance
+        self.MIN_NO_AXN = 4
+        # maximum number of worker instances
+        self.MAX_WORKERS = 19
+        # AMI image to create new instances
+        self.AMI_ID = 'ami-0903fd482d7208724'
+
+        ################ CONFIGURABLE PARAMS - CHANGE AS PER YOUR EC2 ###################
+        # Security Group of your master
+        self.SECURITY_GROUP_ID = 'sg-0ad9dd43f69b8fbe4'
+        # key file of master server
+        ## Change as per your key
+        self.KEY_FILENAME = 'sg_ec2_key'
