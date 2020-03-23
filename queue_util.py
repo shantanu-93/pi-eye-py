@@ -3,21 +3,25 @@ from global_constants import GlobalConstants
 # SQS client
 # max_queue_messages = 10
 # message_bodies = []
-sqs = boto3.client('sqs')#, region_name=GlobalConstants().REGION,
-        # aws_access_key_id=GlobalConstants().ACCESS_KEY,
-        # aws_secret_access_key=GlobalConstants().SECRET_KEY)
+sqs = boto3.client('sqs'
+        , region_name=GlobalConstants().REGION,
+        aws_access_key_id=GlobalConstants().ACCESS_KEY,
+        aws_secret_access_key=GlobalConstants().SECRET_KEY,
+        aws_session_token=GlobalConstants().SESSION_TOKEN)
 
 # Create a queue
-def create_queue(q_name, delay_sec = None, retention_pd = None, fifo = False):
+def create_queue(q_name, delay_sec = None, retention_pd = None):
     response = sqs.create_queue(
         QueueName=q_name,
         Attributes={
-            'DelaySeconds': '60' if delay_sec is None else str(delay_sec),
-            'MessageRetentionPeriod': '86400' if retention_pd is None else str(retention_pd),
-            'FifoQueue': 'false' if fifo is False else 'true'
+            # 'DelaySeconds': '60' if delay_sec is None else str(delay_sec),
+            # 'MessageRetentionPeriod': '86400' if retention_pd is None else str(retention_pd),
+            'FifoQueue': 'true',
+            'ContentBasedDeduplication ' : 'true'
         }
     )
     print(response['QueueUrl'])
+    # return response['QueueUrl']
 
 def update_queue(q_name, attribute, value):
     queue_url = get_queue_url(q_name)

@@ -34,6 +34,7 @@ if __name__ == '__main__':
     queue_url = queues['QueueUrls'][0]
     # print(queue_url)
 
+    
     if(os.path.exists('analysis_queue_videos')):
         print("/analysis_queue_videos!")
     elif(os.path.exists('pi_videos')):
