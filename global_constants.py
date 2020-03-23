@@ -13,6 +13,7 @@ class GlobalConstants:
         self.SHUTDOWN_QUEUE = 'ec2-shutdown-q.fifo'
         #
         self.REGION = 'us-east-1'
+        self.AVAILABILITY_ZONE = 'us-east-1d'
         with open(os.path.expanduser('~/keys/access.txt'), 'r') as fin:
             access_key = fin.readline()
         with open(os.path.expanduser('~/keys/secret.txt'), 'r') as fin:

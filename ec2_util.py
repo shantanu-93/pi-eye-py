@@ -58,7 +58,7 @@ def create_instance(count):
             'Enabled': False
             },
         Placement={
-            'AvailabilityZone': 'us-east-1d',
+            'AvailabilityZone': const.AVAILABILITY_ZONE,
             },
         # UserData='string',
         DisableApiTermination=False,
@@ -103,3 +103,7 @@ def stop_instances(instance_id):
         print(response)
     except ClientError as e:
         print(e)
+
+if __name__ == "__main__":
+    instances = get_ec2_ids_state()
+    stop_instances([k for k,v in instances.items() if v == 'running'])
