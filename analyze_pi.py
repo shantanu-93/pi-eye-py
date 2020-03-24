@@ -23,7 +23,8 @@ if __name__ == '__main__':
         while True:
             while os.listdir('./pi_videos'):
                 latest_subdir = max(os.listdir(), key=os.path.getmtime)
-                subprocess.call(['./darknet','detector','demo','cfg/coco.data','cfg/yolov3-tiny.cfg','yolov3-tiny.weights',latest_subdir])
+                result = latest_subdir[:-5] + '_result.txt'
+                subprocess.call(['./darknet','detector','demo','cfg/coco.data','cfg/yolov3-tiny.cfg','yolov3-tiny.weights',latest_subdir,'>',result])
                 subprocess.call(['rm',latest_subdir])
 
     except KeyboardInterrupt:

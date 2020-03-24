@@ -1,24 +1,17 @@
 import re
 
 result = []
-b = 0
-l=0
+l = 0
 flag = 0
 obj = {}
-with open("demo.txt") as f:
 
-    # contents = f.read()
-    # count = sum(1 for match in re.finditer(r"\bObjects\b", contents))
+with open("demo.txt") as f:
 
     for line in f:
 
-        l += 1
-        # print(l)
-
         if(re.match(r"\bObjects\b", line)):
-            b += 1
-            frame = "frame %d" % b
-            # print(frame)
+            l += 1
+            frame = "frame %d" % l
             flag = 1
 
         if(re.search(r'([\w.]+): ([\d.]+)',line)):

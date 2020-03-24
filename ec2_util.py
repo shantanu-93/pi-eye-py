@@ -53,7 +53,7 @@ def create_instance(count):
         MinCount=1,
         MaxCount=count,
         InstanceType='t2.micro',
-        KeyName=const.KEY_FILENAME,
+        # KeyName=const.KEY_FILENAME,
         Monitoring={
             'Enabled': False
             },
@@ -73,7 +73,7 @@ def create_instance(count):
         # },
         InstanceInitiatedShutdownBehavior='stop',
     )
-    
+
 # instance_id is a list
 def start_instances(instance_id):
     # Do a dryrun first to verify permissions
@@ -105,5 +105,6 @@ def stop_instances(instance_id):
         print(e)
 
 if __name__ == "__main__":
-    instances = get_ec2_ids_state()
-    stop_instances([k for k,v in instances.items() if v == 'running'])
+    create_instance(1)
+    # instances = get_ec2_ids_state()
+    # stop_instances([k for k,v in instances.items() if v == 'running'])
