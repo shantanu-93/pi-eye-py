@@ -10,8 +10,9 @@ import sys
 #subprocess.call(['./darknet','detector','demo','cfg/coco.data','cfg/yolov3-tiny.cfg','yolov3-tiny.weights','../facedetect/record_videos/2020-03-14_15.45.33.h264'])
 
 #os.chdir("/home/pi/facedetect/record_videos")
+const = GlobalConstants()
 
-message , receipt = queue.receive_msg(GlobalConstants().ANALYSIS_QUEUE)
+message , receipt = queue.receive_msg(const.ANALYSIS_QUEUE)
 
 
 if __name__ == '__main__':

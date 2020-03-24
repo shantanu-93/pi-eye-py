@@ -9,6 +9,8 @@ import s3_util as s3_util
 from find_most_recent import allFilesIn
 from time import sleep
 
+const = GlobalConstants()
+
 # def create_q():
     # create analysis queue
     # analysis_queue = create_queue(global_const.ANALYSIS_QUEUE, fifo=True)
@@ -24,17 +26,17 @@ def controller(number):
         return int(number/3), number-int(number/3)
 
 
-
-
 if __name__ == '__main__':
 
-    sqs = boto3.client('sqs',region_name='us-east-1')
-    sqs.create_queue(QueueName=GlobalConstants().ANALYSIS_QUEUE,Attributes={'FifoQueue': 'true','ContentBasedDeduplication': 'true'})
-    queues = sqs.list_queues(QueueNamePrefix=GlobalConstants().ANALYSIS_QUEUE)
+    sqs = boto3.client('sqs', region_name=const.REGION,
+        aws_access_key_id=const.ACCESS_KEY,
+        aws_secret_access_key=const.SECRET_KEY)
+    sqs.create_queue(QueueName=const.ANALYSIS_QUEUE,Attributes={'FifoQueue': 'true','ContentBasedDeduplication': 'true'})
+    queues = sqs.list_queues(QueueNamePrefix=const.ANALYSIS_QUEUE)
     queue_url = queues['QueueUrls'][0]
     # print(queue_url)
 
-    
+
     if(os.path.exists('analysis_queue_videos')):
         print("/analysis_queue_videos!")
     elif(os.path.exists('pi_videos')):

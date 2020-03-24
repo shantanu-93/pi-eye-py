@@ -3,7 +3,7 @@ class GlobalConstants:
 
     def __init__(self):
         # S3 buckets
-        self.VIDEO_BUCKET = 'content-bucket-546'
+        self.VIDEO_BUCKET = 'my-content-bucket-546'
         self.RESULTS_BUCKET = 'results-bucket-546'
         # Queue names
         self.UPLOAD_QUEUE = 'content-upload-q.fifo'
@@ -13,13 +13,27 @@ class GlobalConstants:
         self.SHUTDOWN_QUEUE = 'ec2-shutdown-q.fifo'
         #
         self.REGION = 'us-east-1'
+        self.AVAILABILITY_ZONE = 'us-east-1d'
         # with open(os.path.expanduser('..\\keys\\access.txt'), 'r') as fin:
         #     access_key = fin.readline()
         # with open(os.path.expanduser('..\\keys\\secret.txt'), 'r') as fin:
         #     secret_key = fin.readline()
-        self.ACCESS_KEY = 'ASIAVMF4UUFAN7HUL2VP'
-        self.SECRET_KEY = 'o9bk6xaR2oeJOL0IFB9XnMtD3059oUJ+5CBiq7Ul'
-        self.SESSION_TOKEN = 'FwoGZXIvYXdzEPP//////////wEaDODIc641TjGfReoWHSK9AfQ33Ng53r3D/ClSJQVVqMnJOMwEMCinnsHMJtF9oDYk0E80Q1AYapQqYwR3hAbFzEhCMaKBjA+XNzdnYiLuzRPIC2Thj5OBh7xyHW/v+3PX7HqYOZVFFa5E0MPKhwEtGPrX/zJgJbkFj+0n1WVamtjmIPlzAMVf6NNazmVlVRzIelbopKuohB2LhPZhvqVVyVKfljTEB/nb1st3x5jFFfNeUvyC9YSeUBzE80IB7CqdrLh48rztkQTD3AcoQii1ncvzBTItVA/N7Yek0+V7kwp8/aDLpOlMxjqXN6/0yrx1/Ros7PR/i0cNk32z0+cPM7IB'
+        self.ACCESS_KEY = 'AKIA23OOWAPBJ5KUZEOT'
+        self.SECRET_KEY = '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'
+
+        # minimum number of requests above which to create a new instance
+        self.MIN_NO_AXN = 4
+        # maximum number of worker instances
+        self.MAX_WORKERS = 19
+        # AMI image to create new instances
+        self.AMI_ID = 'ami-0903fd482d7208724'
+
+        ################ CONFIGURABLE PARAMS - CHANGE AS PER YOUR EC2 ###################
+        # Security Group of your master
+        self.SECURITY_GROUP_ID = 'sg-d2cb35fe'
+        # key file of master server
+        ## Change as per your key
+        self.KEY_FILENAME = 'michael'
 
 if __name__ == '__main__':
     g = GlobalConstants()
