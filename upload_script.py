@@ -11,11 +11,6 @@ from time import sleep
 
 const = GlobalConstants()
 
-# def create_q():
-    # create analysis queue
-    # analysis_queue = create_queue(global_const.ANALYSIS_QUEUE, fifo=True)
-    # queue_url = get_queue_url(global_const.ANALYSIS_QUEUE)
-
 def get_file_numbers(dir):
     return len(os.listdir(dir))
 

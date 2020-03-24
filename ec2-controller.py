@@ -8,7 +8,7 @@ if __name__ == "__main__":
     # while True:
     instances = ec2.get_ec2_ids_state()
     active_instances = len(instances)
-    watiing_msg_count = int(queue_util.get_msg_count(const.ANALYSIS_QUEUE))
+    watiing_msg_count = int(queue_util.get_msg_count(const.ANALYSIS_QUEUE_URL))
     print(watiing_msg_count)
     if watiing_msg_count>const.MIN_NO_AXN:
         stopped_instances = [k for k,v in instances.items() if v == 'stopped']
