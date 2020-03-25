@@ -8,9 +8,9 @@ class GlobalConstants:
         self.RESULTS_BUCKET = 'results-bucket-546'
         # Queue names
         self.CONTENT_QUEUE = 'content-upload-q.fifo'
-        self.CONTENT_QUEUE_URL = queue_util.get_queue_url(self.CONTENT_QUEUE)
+        #self.CONTENT_QUEUE_URL = queue_util.get_queue_url(self.CONTENT_QUEUE)
         self.ANALYSIS_QUEUE = 'video-analysis-q.fifo'
-        self.ANALYSIS_QUEUE_URL = queue_util.get_queue_url(self.ANALYSIS_QUEUE)
+        #self.ANALYSIS_QUEUE_URL = queue_util.get_queue_url(self.ANALYSIS_QUEUE)
 
         ## Not used as of yet 03/23
         self.DELETE_QUEUE = 'content-deletion-q.fifo'

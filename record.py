@@ -12,7 +12,7 @@ def getFileName():
 filename = getFileName()
 camera.start_preview()
 camera.start_recording(filename)
-camera.wait_recording(10)
+camera.wait_recording(5)
 camera.stop_preview()
 camera.stop_recording()
 

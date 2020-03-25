@@ -3,8 +3,8 @@
 '''
 SETUP:
 
-    -   -->     GND     -->     PIN6
-    +   -->     5V      -->     PIN4
+    -   -->     GND     -->     PIN14
+    +   -->     5V      -->     PIN2
     S   -->     GPIO18  -->     PIN12
 
 '''
