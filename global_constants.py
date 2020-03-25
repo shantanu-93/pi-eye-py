@@ -1,4 +1,5 @@
 import os
+import queue_util as queue_util
 class GlobalConstants:
 
     def __init__(self):
@@ -6,8 +7,12 @@ class GlobalConstants:
         self.VIDEO_BUCKET = 'my-content-bucket-546'
         self.RESULTS_BUCKET = 'results-bucket-546'
         # Queue names
-        self.UPLOAD_QUEUE = 'content-upload-q.fifo'
+        self.CONTENT_QUEUE = 'content-upload-q.fifo'
+        self.CONTENT_QUEUE_URL = queue_util.get_queue_url(self.CONTENT_QUEUE)
         self.ANALYSIS_QUEUE = 'video-analysis-q.fifo'
+        self.ANALYSIS_QUEUE_URL = queue_util.get_queue_url(self.ANALYSIS_QUEUE)
+
+        ## Not used as of yet 03/23
         self.DELETE_QUEUE = 'content-deletion-q.fifo'
         self.MONITOR_QUEUE = 'ec2-monitor-q.fifo'
         self.SHUTDOWN_QUEUE = 'ec2-shutdown-q.fifo'

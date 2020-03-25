@@ -1,6 +1,8 @@
 import boto3
 import os
 from global_constants import GlobalConstants
+from botocore.exceptions import NoCredentialsError
+
 """
 Upload file objects to S3
 """
@@ -31,7 +33,17 @@ def upload_results(result_files):
 
 # download file from s3
 def download_video(filename, target_dir):
-    s3_client.download_file(const.VIDEO_BUCKET, filename, os.path.join(target_dir,filename))
+    try:
+        s3_client.download_file(const.VIDEO_BUCKET, filename, os.path.join(target_dir,filename))
+    except FileNotFoundError:
+        print("The file was not found")
+        return False
+    except NoCredentialsError:
+        print("Credentials not available")
+        return False
+    except Exception:
+        print("Exception in se_util.download_video()")
+    return True
 
 if __name__ == "__main__":
     upload_videos(['.\\analysis_queue_videos\\f1.h264'])

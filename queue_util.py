@@ -26,8 +26,7 @@ def create_queue(q_name, delay_sec = None, retention_pd = None):
     print(response['QueueUrl'])
     # return response['QueueUrl']
 
-def update_queue(q_name, attribute, value):
-    queue_url = get_queue_url(q_name)
+def update_queue(queue_url, attribute, value):
     sqs.set_queue_attributes(
     QueueUrl=queue_url,
     Attributes={attribute:value} #'ReceiveMessageWaitTimeSeconds': '20'
@@ -43,12 +42,11 @@ def get_queue_url(q_name):
     return response['QueueUrl']
 
 # Delete a queue given queue name
-def delete_queue(q_name):
-    q_url = get_queue_url(q_name)
+def delete_queue(q_url):
     if q_url is not None:
         sqs.delete_queue(QueueUrl=q_url)
 
-def send_msg(q_name, msg_attribs, msg_body):
+def send_msg(queue_url, msg_attribs, msg_body):
     """
     sample_msg_attrib = {
             'Title': {
@@ -66,38 +64,36 @@ def send_msg(q_name, msg_attribs, msg_body):
         }
     sample_msg_body = 'Information about current NY Times fiction bestseller for week of 12/11/2016.'
     """
-    # Get queue url
-    queue_url = get_queue_url(q_name)
     # Send message to SQS queue
     response = sqs.send_message(
         QueueUrl=queue_url,
         DelaySeconds=0,
-        MessageAttributes= msg_attribs,
+        MessageAttributes=msg_attribs,
         MessageBody=msg_body,
         MessageGroupId='1'
     )
 
     return response['MessageId']
 
-def receive_msg(q_name):
+def receive_msg(queue_url):
     # Get queue url
-    queue_url = get_queue_url(q_name)
     response = sqs.receive_message(
         QueueUrl=queue_url,
         AttributeNames=['SentTimestamp'],
         MaxNumberOfMessages=1,
         MessageAttributeNames=['All'],
-        VisibilityTimeout=60,
+        VisibilityTimeout=120,
         WaitTimeSeconds=20
     )
-    message = response['Messages'][0]
-    receipt_handle = message['ReceiptHandle']
+    # if response in not None
+    if 'Messages' in response:
+        message = response['Messages'][0]['Body']
+        receipt_handle = response['Messages'][0]['ReceiptHandle']
+    else:
+        return None,None
     return message, receipt_handle
 
-def delete_msg(q_name, message, receipt_handle):
-    # Get queue url
-    queue_url = get_queue_url(q_name)
-    # message, receipt_handle = receive_msg(q_name)
+def delete_msg(queue_url, message, receipt_handle):
     sqs.delete_message(
         QueueUrl=queue_url,
         ReceiptHandle=receipt_handle
@@ -106,9 +102,9 @@ def delete_msg(q_name, message, receipt_handle):
     return message
 
 
-def get_msg_count(q_name):
+def get_msg_count(queue_url):
     response = sqs.get_queue_attributes(
-        QueueUrl=get_queue_url(q_name),
+        QueueUrl=queue_url,
         AttributeNames=[
             'ApproximateNumberOfMessages'
         ]
@@ -124,13 +120,14 @@ if __name__ == "__main__":
     #     print(q)
 
     # push 10 dummy messages to queue
-    for i in range(10):
-        message_attrib = {
-                str(time.clock()) : {
-                    'DataType': 'String',
-                    'StringValue': str(i)
-                }
-            }
-        msg_body = 'This is message '+str(i)
-        print(send_msg(const.ANALYSIS_QUEUE, message_attrib, msg_body))
+    for i in range(1):
+        # message_attrib = {
+        #         'filename' : {
+        #             'DataType': 'String',
+        #             'StringValue': 'record.h264'
+        #         }
+        #     }
+        msg_body = 'record.h264'
+        print()
+        print(send_msg(const.ANALYSIS_QUEUE, {}, msg_body))
         print()
