@@ -7,7 +7,12 @@ def parse_result(file):
     flag = 0
     obj = {}
 
+    with open(file,'a') as f:
+        f.write('\nFPS\n')
+        f.close()
+
     with open(file) as f:
+
         for line in f:
 
             if(re.match(r"\bObjects\b", line)):
@@ -31,6 +36,8 @@ def parse_result(file):
                 result.append(temp)
                 # print("result:", result)
                 flag = 0
+
+        f.close()
 
     return result
 
