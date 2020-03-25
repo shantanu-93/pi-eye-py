@@ -1,0 +1,192 @@
+Demo
+video file: /home/pi/pi-eye-py/pi_videos/2020-03-25_04.38.51.h264
+[2J[1;1H
+FPS:5468.5
+Objects:
+
+[2J[1;1H
+FPS:0.8
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.1
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 27%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 28%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 28%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 27%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 27%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 29%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 31%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 33%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 34%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 34%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 35%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 34%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 33%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 31%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 31%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 34%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 36%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 37%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 37%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 36%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 35%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 34%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 36%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 34%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 35%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 32%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 33%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 31%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 31%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 29%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 29%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 30%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 32%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+giraffe: 32%

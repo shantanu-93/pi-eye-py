@@ -1,0 +1,175 @@
+Demo
+video file: /home/pi/pi-eye-py/pi_videos/2020-03-25_04.38.32.h264
+[2J[1;1H
+FPS:5577.5
+Objects:
+
+[2J[1;1H
+FPS:0.8
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 26%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 26%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 27%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 27%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 28%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 28%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 26%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 25%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 25%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 26%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 24%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 24%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 24%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 26%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 26%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 26%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+bird: 25%
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
+[2J[1;1H
+FPS:1.2
+Objects:
+
