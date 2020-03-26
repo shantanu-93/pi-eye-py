@@ -29,7 +29,7 @@ def upload_results(result_files):
     results_bucket = s3_resource.Bucket(const.RESULTS_BUCKET)
     for result_file in result_files:
         data = open(result_file, 'rb')
-        results_bucket.put_object(Key=result_file, Body=data)
+        results_bucket.put_object(Key=os.path.basename(result_file), Body=data)
 
 # download file from s3
 def download_video(filename, target_dir):
@@ -46,7 +46,8 @@ def download_video(filename, target_dir):
     return True
 
 if __name__ == "__main__":
-    upload_videos(['.\\analysis_queue_videos\\f1.h264'])
+    upload_results(['/home/pi/pi-eye-py/pi_outputs/2020-03-25_04.37.54_output.txt'])
+    #upload_videos(['.\\analysis_queue_videos\\f1.h264'])
     # download_video('record.h264', '.\\analysis_queue_videos')
     print("pass")
 

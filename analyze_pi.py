@@ -36,7 +36,8 @@ if __name__ == '__main__':
                     with open(result_file, 'w') as fout:
                         fout.write(out)
                     with open(output_file, 'w') as fout:
-                        fout.write(parse.parse_result(output_file))
+                        fout.write(str(parse.parse_result(result_file)))
+		    print("XYZ             ",output_file)
                     if output_file is not None:
                         s3_util.upload_results([output_file])
                     os.system('mv {0} {1}'.format(latest_subdir,processed_dir))

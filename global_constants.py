@@ -1,5 +1,4 @@
 import os
-import queue_util as queue_util
 class GlobalConstants:
 
     def __init__(self):
@@ -19,12 +18,12 @@ class GlobalConstants:
         #
         self.REGION = 'us-east-1'
         self.AVAILABILITY_ZONE = 'us-east-1d'
-        # with open(os.path.expanduser('..\\keys\\access.txt'), 'r') as fin:
-        #     access_key = fin.readline()
-        # with open(os.path.expanduser('..\\keys\\secret.txt'), 'r') as fin:
-        #     secret_key = fin.readline()
-        self.ACCESS_KEY = 'AKIA23OOWAPBJ5KUZEOT'
-        self.SECRET_KEY = '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'
+        with open(os.path.expanduser('~/keys/access.txt'), 'r') as fin:
+            access_key = fin.readline()
+        with open(os.path.expanduser('~/keys/secret.txt'), 'r') as fin:
+            secret_key = fin.readline()
+        self.ACCESS_KEY = str(access_key)
+        self.SECRET_KEY = str(secret_key)
 
         # minimum number of requests above which to create a new instance
         self.MIN_NO_AXN = 4
@@ -35,10 +34,10 @@ class GlobalConstants:
 
         ################ CONFIGURABLE PARAMS - CHANGE AS PER YOUR EC2 ###################
         # Security Group of your master
-        self.SECURITY_GROUP_ID = 'sg-d2cb35fe'
+        self.SECURITY_GROUP_ID = 'sg-0ad9dd43f69b8fbe4'
         # key file of master server
         ## Change as per your key
-        self.KEY_FILENAME = 'michael'
+        self.KEY_FILENAME = 'sg_ec2_key' #'michael'
 
 if __name__ == '__main__':
     g = GlobalConstants()
