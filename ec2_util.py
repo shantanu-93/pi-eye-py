@@ -7,15 +7,18 @@ from botocore.exceptions import ClientError
 
 const = global_constants.GlobalConstants()
 
-sqs = boto3.client('sqs', region_name=const.REGION,
+sqs = boto3.client('sqs')
+''', region_name=const.REGION,
         aws_access_key_id=const.ACCESS_KEY,
-        aws_secret_access_key=const.SECRET_KEY)
-ec2_client = boto3.client('ec2', region_name=const.REGION,
+        aws_secret_access_key=const.SECRET_KEY)'''
+ec2_client = boto3.client('ec2')
+''', region_name=const.REGION,
         aws_access_key_id=const.ACCESS_KEY,
-        aws_secret_access_key=const.SECRET_KEY)
-ec2_resource = boto3.resource('ec2', region_name=const.REGION,
+        aws_secret_access_key=const.SECRET_KEY)'''
+ec2_resource = boto3.resource('ec2')
+''', region_name=const.REGION,
         aws_access_key_id=const.ACCESS_KEY,
-        aws_secret_access_key=const.SECRET_KEY)
+        aws_secret_access_key=const.SECRET_KEY)'''
 # pylint: disable=E1101
 def get_ec2_ids_state():
     instances = {}

@@ -6,10 +6,10 @@ const = GlobalConstants()
 # SQS client
 # max_queue_messages = 10
 # message_bodies = []
-sqs = boto3.client('sqs'
-        , region_name=GlobalConstants().REGION,
+sqs = boto3.client('sqs')
+''', region_name=GlobalConstants().REGION,
         aws_access_key_id=GlobalConstants().ACCESS_KEY,
-        aws_secret_access_key=GlobalConstants().SECRET_KEY)
+        aws_secret_access_key=GlobalConstants().SECRET_KEY)'''
 
 
 # Create a queue

@@ -23,9 +23,10 @@ def controller(number):
 
 if __name__ == '__main__':
 
-    sqs = boto3.client('sqs', region_name=const.REGION,
+    sqs = boto3.client('sqs')
+    ''', region_name=const.REGION,
         aws_access_key_id=const.ACCESS_KEY,
-        aws_secret_access_key=const.SECRET_KEY)
+        aws_secret_access_key=const.SECRET_KEY)'''
     sqs.create_queue(QueueName=const.ANALYSIS_QUEUE,Attributes={'FifoQueue': 'true','ContentBasedDeduplication': 'true'})
     queues = sqs.list_queues(QueueNamePrefix=const.ANALYSIS_QUEUE)
     queue_url = queues['QueueUrls'][0]
