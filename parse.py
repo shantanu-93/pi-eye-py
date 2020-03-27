@@ -1,46 +1,24 @@
-import re
+from re import search
+from os.path import isfile
 
 def parse_result(file):
-
-    result = []
-    l = 0
-    flag = 0
-    obj = {}
-
-    with open(file,'a') as f:
-        f.write('\nFPS\n')
-        f.close()
-
-    with open(file) as f:
-
-        for line in f:
-
-            if(re.match(r"\bObjects\b", line)):
-                l += 1
-                frame = "frame %d" % l
-                flag = 1
-
-            if(re.search(r'([\w.]+): ([\d.]+)',line)):
-                who = re.search(r'([\w.]+): ([\d.]+)', line)
-                # print(who.group(1))
-                objs = who.group(1)
-                # print(who.group(2))
-                percentage = who.group(2)
-                obj[objs] = percentage
-                # print(obj)
-
-            if(re.match(r"\bFPS\b", line) and flag == 1):
-                temp = {frame:obj.copy()}
-                # print("obj:",obj)
-                # print("temp:",temp)
-                result.append(temp)
-                # print("result:", result)
-                flag = 0
-
-        f.close()
-
-    return result
+    objs = []
+    if isfile(file):
+        with open(file) as f:
+            for line in f:
+                if(search(r'([\w.]+): ([\d.]+)',line)):
+                    who = search(r'([\w.]+): ([\d.]+)', line)
+                    if who.group(1) not in objs:
+                        objs.append(who.group(1))
+    return ','.join(str(s) for s in objs)
 
 if __name__ == '__main__':
-    r = parse_result("demo.txt")
-    # print(r)
+    r = parse_result('/home/shantanu/pi-eye-py/pi_results/2020-03-25_04.38.32_result.txt')
+    print(r)
+    r = parse_result('/home/shantanu/pi-eye-py/pi_results/2020-03-25_04.37.54_result.txt')
+    print(r)
+    r = parse_result('/home/shantanu/pi-eye-py/pi_results/2020-03-25_04.38.51_result.txt')
+    print(r)
+    r = parse_result('/home/shantanu/pi-eye-py/pi_result/2020-03-25_04.38.51_result.txt')
+    print(r)
+    

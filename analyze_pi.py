@@ -10,20 +10,20 @@ import s3_util
 import parse
 
 const = GlobalConstants()
-analysis_dir = "/home/pi/pi-eye-py/pi_videos/"
-result_dir = "/home/pi/pi-eye-py/pi_results/"
-processed_dir = "/home/pi/pi-eye-py/processed_videos/"
+analysis_dir = os.path.expanduser("~/pi-eye-py/pi_videos/")
+result_dir = os.path.expanduser("~/pi-eye-py/pi_results/")
+processed_dir = os.path.expanduser("~/pi-eye-py/processed_videos/")
 
 
 if __name__ == '__main__':
 
-    os.chdir("/home/pi/darknet")
+    os.chdir(os.path.expanduser("~/darknet"))
 
     try:
         while True:
-            if (psutil.cpu_percent() <= 85):
+            if (psutil.cpu_percent(interval=1) <= 85):
                 while os.listdir(analysis_dir):
-                    list_of_files = glob.glob(analysis_dir+'/*')
+                    list_of_files = glob.glob(analysis_dir+'/*.h264')
                     print("list_of_files: ",list_of_files)
                     latest_subdir = os.path.abspath(min(list_of_files, key=os.path.getmtime))
                     print("Video File: ",latest_subdir)
@@ -34,10 +34,9 @@ if __name__ == '__main__':
                     proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
                     (out, err) = proc.communicate()
                     with open(result_file, 'w') as fout:
-                        fout.write(out)
+                        fout.write(str(out))
                     with open(output_file, 'w') as fout:
                         fout.write(str(parse.parse_result(result_file)))
-		    print("XYZ             ",output_file)
                     if output_file is not None:
                         s3_util.upload_results([output_file])
                     os.system('mv {0} {1}'.format(latest_subdir,processed_dir))
