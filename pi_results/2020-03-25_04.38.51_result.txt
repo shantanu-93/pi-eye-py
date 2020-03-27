@@ -20,11 +20,12 @@ Objects:
 FPS:1.1
 Objects:
 
+horse: 27%
 [2J[1;1H
 FPS:1.2
 Objects:
 
-giraffe: 27%
+zebra: 27%
 [2J[1;1H
 FPS:1.2
 Objects:
@@ -39,7 +40,7 @@ giraffe: 28%
 FPS:1.2
 Objects:
 
-giraffe: 27%
+horse: 27%
 [2J[1;1H
 FPS:1.2
 Objects:
@@ -189,4 +190,8 @@ giraffe: 32%
 FPS:1.2
 Objects:
 
-giraffe: 32%
+zebra: 32%
+
+FPS
+
+FPS
