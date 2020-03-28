@@ -31,14 +31,14 @@ def controller(number):
 
 if __name__ == '__main__':
 
-    # if not os.path.exists('analysis_queue_videos'):
-    # #     print("/analysis_queue_videos!")
-    # # else:
-    #     subprocess.call(['mkdir','analysis_queue_videos'])
-    # if not os.path.exists('pi_videos'):
-    # #     print("/pi_videos already exits!")
-    # # else:
-    #     subprocess.call(['mkdir','pi_videos'])
+    if not os.path.exists('analysis_queue_videos'):
+    #     print("/analysis_queue_videos!")
+    # else:
+        subprocess.call(['mkdir','analysis_queue_videos'])
+    if not os.path.exists('pi_videos'):
+    #     print("/pi_videos already exits!")
+    # else:
+        subprocess.call(['mkdir','pi_videos'])
 
     os.chdir("record_videos")
     try:
