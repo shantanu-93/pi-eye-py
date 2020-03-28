@@ -7,7 +7,7 @@ import glob
 from global_constants import GlobalConstants
 import queue_util as queue_util
 import s3_util as s3_util
-from find_most_recent import allFilesIn
+# from find_most_recent import allFilesIn
 import time
 
 const = GlobalConstants()
