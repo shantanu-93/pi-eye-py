@@ -26,20 +26,20 @@ if __name__ == '__main__':
                     list_of_files = glob.glob(analysis_dir+'/*.h264')
                     print("list_of_files: ",list_of_files)
                     latest_subdir = os.path.abspath(min(list_of_files, key=os.path.getmtime))
-                    print("Video File: ",latest_subdir)
-                    result_file = os.path.join(result_dir,str(os.path.basename(latest_subdir)[:-5] + '_result.txt'))
-                    print("Result File: ",result_file)
-                    output_file = result_file.replace('_result','_output')
+                    print("Processing Video File: ",latest_subdir)
                     command = "./darknet detector demo cfg/coco.data cfg/yolov3-tiny.cfg yolov3-tiny.weights {0}".format(latest_subdir)
                     proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
                     (out, err) = proc.communicate()
-                    with open(result_file, 'w') as fout:
-                        fout.write(str(out))
-                    with open(output_file, 'w') as fout:
-                        fout.write(str(parse.parse_result(result_file)))
-                    if output_file is not None:
-                        s3_util.upload_results([output_file])
-                    os.system('mv {0} {1}'.format(latest_subdir,processed_dir))
+                    # result_file = os.path.join(result_dir,str(os.path.basename(latest_subdir)[:-5] + '_result.txt'))
+                    # with open(result_file, 'w') as fout:
+                    #     fout.write(str(parse.parse_result(str(out))))
+                    # output_file = result_file.replace('_result','_output')
+                    # with open(output_file, 'w') as fout:
+                    #     fout.write(str(out))
+                    result_key = str(os.path.basename(latest_subdir)[:-5] + '_result.txt')
+                    print("Uploading Result File: ",result_key)
+                    s3_util.upload_results(result_key,parse.parse_result(str(out)))
+                    subprocess.run('mv {0} {1}'.format(latest_subdir,processed_dir),shell=True, check=True)
                     # TODO: comment above uncomment below
                     # os.system('rm -rf %s' %latest_subdir)
              
