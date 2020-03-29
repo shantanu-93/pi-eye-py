@@ -28,7 +28,7 @@ class GlobalConstants:
         # maximum number of worker instances
         self.MAX_WORKERS = 19
         # AMI image to create new instances
-        self.AMI_ID = 'ami-0903fd482d7208724'
+        self.AMI_ID = 'ami-0626b0d74f4cb904b'
 
         ################ CONFIGURABLE PARAMS - CHANGE AS PER YOUR EC2 ###################
         # Security Group of your master

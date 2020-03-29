@@ -19,7 +19,7 @@ s3_client = boto3.client('s3')
 
 # upload videos to s3
 # videos is a list
-def upload_videos(video_files):
+def upload_videos(video_files): # earlier ec2_vids
     content_bucket = s3_resource.Bucket(const.VIDEO_BUCKET)
     for video_file in video_files:
         data = open(video_file, 'rb')
@@ -27,11 +27,11 @@ def upload_videos(video_files):
 
 # upload results to s3
 # results is a list
-def upload_results(result_files):
+def upload_results(key,value):
     results_bucket = s3_resource.Bucket(const.RESULTS_BUCKET)
-    for result_file in result_files:
-        data = open(result_file, 'rb')
-        results_bucket.put_object(Key=os.path.basename(result_file), Body=data)
+    # for result_file in result_files:
+        # data = open(result_file, 'rb')
+    results_bucket.put_object(Key=key, Body=value)
 
 # download file from s3
 def download_video(filename, target_dir):

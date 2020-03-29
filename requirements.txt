@@ -1,4 +1,8 @@
 boto3
 psutil
 ec2_metadata
+<<<<<<< HEAD
 awscli
+=======
+awscli
+>>>>>>> 4c1210a0a5dcc996f5ed445e84358725138db011
