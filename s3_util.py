@@ -19,7 +19,7 @@ s3_client = boto3.client('s3')
 
 # upload videos to s3
 # videos is a list
-def upload_videos(video_files):
+def upload_videos(video_files): # earlier ec2_vids
     content_bucket = s3_resource.Bucket(const.VIDEO_BUCKET)
     for video_file in video_files:
         data = open(video_file, 'rb')

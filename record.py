@@ -11,7 +11,7 @@ if not os.path.exists(record_dir):
 os.chdir(record_dir)
 #function to create new filename from date and time
 def getFileName():
-   return 'video-'+datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S.h264")
+   return 'video-'+datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S.h264")
 
 filename = getFileName()
 camera.start_preview()

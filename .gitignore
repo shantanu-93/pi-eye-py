@@ -1,4 +1,4 @@
-.vscode
+*.vscode
 __pycache__/*
 *.pyc
 processed_videos/
@@ -7,3 +7,4 @@ pi_results/
 pi_outputs/
 pi_videos/
 analysis_queue_videos/
+*.code-workspace
