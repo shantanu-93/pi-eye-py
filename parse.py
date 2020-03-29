@@ -6,7 +6,8 @@ def parse_result(out):
     objs = []
     # if isfile(file):
     #     with open(file) as f:
-    for line in out:
+    op = out.decode().split("\n")
+    for line in op:
         if(search(r'([\w.]+): ([\d.]+)',line)):
             who = search(r'([\w.]+): ([\d.]+)', line)
             if who.group(1) not in objs:
