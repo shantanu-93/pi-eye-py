@@ -18,12 +18,12 @@ if __name__ == "__main__":
             create_count = watiing_msg_count - const.MIN_NO_AXN - start_count
         if start_count>0:
             ec2.start_instances (stopped_instances [0:start_count])
-        
+
         if create_count>0 and active_instances<const.MAX_WORKERS:
             ec2.create_instance(min(create_count, const.MAX_WORKERS-active_instances))
 
-            
-            
+
+
         # client = pk.SSHClient()
         # client.set_missing_host_key_policy(pk.AutoAddPolicy())
         # client.connect('x.x.x.x', port=2222, username='user', password='pass')
