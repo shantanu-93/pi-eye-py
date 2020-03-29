@@ -40,7 +40,10 @@ if __name__ == '__main__':
     # else:
         subprocess.call(['mkdir','pi_videos'])
 
-    os.chdir("record_videos")
+    record_dir = os.path.expanduser("~/pi-eye-py/record_videos")
+    if not os.path.exists(record_dir):
+        subprocess.call(['mkdir',record_dir])
+    os.chdir(record_dir)
     try:
         while True:
 
@@ -60,7 +63,7 @@ if __name__ == '__main__':
                     subprocess.run((' ').join(['mv',latest_subdir,os.path.expanduser('~/pi-eye-py/pi_videos/')]),shell=True, check=True)
                 print("\n Time taken to move to pi videos: ",time.time()-start)
                 # upload videos to s3
-                if len(ec2) > 0:
+                if ec2 > 0:
                     ec2_vid = glob.glob(recording_vids)
                     s3_util.upload_videos(ec2_vid)
                     print("\n Time taken to upload to s3 {}, count {}".format(time.time()-start, len(ec2_vid)))
@@ -78,7 +81,7 @@ if __name__ == '__main__':
             else:
                 # TODO: See if required
                 time.sleep(5)
-            print("/n","Polling recording directory")
+            print("\nPolling recording directory")
 
     except KeyboardInterrupt:
         print("Quitting the program.")

@@ -4,6 +4,9 @@ import datetime
 import os
 
 camera = PiCamera()
+record_dir = os.path.expanduser("~/pi-eye-py/record_videos")
+if not os.path.exists(record_dir):
+    subprocess.call(['mkdir',record_dir])
 os.chdir("./record_videos")
 #function to create new filename from date and time
 def getFileName():
