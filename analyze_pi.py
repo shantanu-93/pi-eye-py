@@ -34,10 +34,10 @@ if __name__ == '__main__':
                 if os.listdir(analysis_dir):
                     start = time.time()
                     list_of_files = glob.glob(analysis_dir+'/*.h264')
-                    print("list_of_files: ",list_of_files)
+                    print("\nlist_of_files: ",list_of_files)
                     latest_subdir = os.path.abspath(min(list_of_files, key=os.path.getmtime))
                     filename = (os.path.basename(latest_subdir))
-                    print("Processing Video File: \n",latest_subdir)
+                    print("\nProcessing Video File: \n",latest_subdir)
                     command = "./darknet detector demo cfg/coco.data cfg/yolov3-tiny.cfg yolov3-tiny.weights {0}".format(latest_subdir)
                     proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
                     (out, err) = proc.communicate()
@@ -58,7 +58,7 @@ if __name__ == '__main__':
                     # os.system('rm -rf %s' %latest_subdir)
                 else:
                     time.sleep(2)
-                print("Polling pi_videos directory")
+                print("\nPolling pi_videos directory")
              
     except KeyboardInterrupt:
         print("Quitting the program.")

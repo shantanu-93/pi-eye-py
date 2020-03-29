@@ -60,19 +60,20 @@ if __name__ == '__main__':
                     subprocess.run((' ').join(['mv',latest_subdir,os.path.expanduser('~/pi-eye-py/pi_videos/')]),shell=True, check=True)
                 print("\n Time taken to move to pi videos: ",time.time()-start)
                 # upload videos to s3
-                ec2_vid = glob.glob(recording_vids)
-                s3_util.upload_videos(ec2_vid)
-                print("\n Time taken to upload to s3 {}, count {}".format(time.time()-start, len(ec2_vid)))
+                if len(ec2) > 0:
+                    ec2_vid = glob.glob(recording_vids)
+                    s3_util.upload_videos(ec2_vid)
+                    print("\n Time taken to upload to s3 {}, count {}".format(time.time()-start, len(ec2_vid)))
 
-                # move videos to /analysis_queue_videos and push to sqs
-                for _ in range(ec2):
-                    latest_subdir = min(glob.glob(recording_vids), key=os.path.getmtime)
-                    # print(latest_subdir)
-                    MessageBody=str(latest_subdir)
-                    ret = sqs.send_message(QueueUrl=queue_url,MessageBody=MessageBody,MessageGroupId='msggpid1')
-                    print(latest_subdir," sent to queue!")
-                    subprocess.run((' ').join(['mv',latest_subdir,os.path.expanduser('~/pi-eye-py/analysis_queue_videos')]),shell=True, check=True)
-                print("\n Time taken to send to sqs {}, count {}".format(time.time()-start, len(ec2_vid)))
+                    # move videos to /analysis_queue_videos and push to sqs
+                    for _ in range(ec2):
+                        latest_subdir = min(glob.glob(recording_vids), key=os.path.getmtime)
+                        # print(latest_subdir)
+                        MessageBody=str(latest_subdir)
+                        ret = sqs.send_message(QueueUrl=queue_url,MessageBody=MessageBody,MessageGroupId='msggpid1')
+                        print(latest_subdir," sent to queue!")
+                        subprocess.run((' ').join(['mv',latest_subdir,os.path.expanduser('~/pi-eye-py/analysis_queue_videos')]),shell=True, check=True)
+                    print("\n Time taken to send to sqs {}, count {}".format(time.time()-start, len(ec2_vid)))
 
             else:
                 # TODO: See if required
