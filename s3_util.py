@@ -50,7 +50,7 @@ def download_video(filename, target_dir):
 if __name__ == "__main__":
     # upload_results([os.path.expanduser('~/pi-eye-py/pi_outputs/2020-03-25_04.37.54_output.txt')])
     #upload_videos(['.\\analysis_queue_videos\\f1.h264'])
-    # download_video('record.h264', '.\\analysis_queue_videos')
+    download_video('2020-03-25_04.38.51.h264', '.\\analysis_queue_videos')
     print("pass")
 
 

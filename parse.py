@@ -13,12 +13,12 @@ def parse_result(file):
     return ','.join(str(s) for s in objs)
 
 if __name__ == '__main__':
-    r = parse_result('/home/shantanu/pi-eye-py/pi_results/2020-03-25_04.38.32_result.txt')
-    print(r)
-    r = parse_result('/home/shantanu/pi-eye-py/pi_results/2020-03-25_04.37.54_result.txt')
-    print(r)
-    r = parse_result('/home/shantanu/pi-eye-py/pi_results/2020-03-25_04.38.51_result.txt')
-    print(r)
-    r = parse_result('/home/shantanu/pi-eye-py/pi_result/2020-03-25_04.38.51_result.txt')
-    print(r)
-    
+    a = 'demo.txt'
+    r = parse_result(a)
+    print("r:" + r)
+    # r = parse_result('/home/shantanu/pi-eye-py/pi_results/2020-03-25_04.37.54_result.txt')
+    # print(r)
+    # r = parse_result('/home/shantanu/pi-eye-py/pi_results/2020-03-25_04.38.51_result.txt')
+    # print(r)
+    # r = parse_result('/home/shantanu/pi-eye-py/pi_result/2020-03-25_04.38.51_result.txt')
+    # print(r)

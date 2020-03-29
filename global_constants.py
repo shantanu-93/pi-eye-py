@@ -3,7 +3,7 @@ class GlobalConstants:
 
     def __init__(self):
         # S3 buckets
-        self.VIDEO_BUCKET = 'my-content-bucket-546'
+        self.VIDEO_BUCKET = 'content-bucket-546'
         self.RESULTS_BUCKET = 'results-bucket-546'
         # Queue names
         self.CONTENT_QUEUE = 'content-upload-q.fifo'
@@ -32,10 +32,10 @@ class GlobalConstants:
 
         ################ CONFIGURABLE PARAMS - CHANGE AS PER YOUR EC2 ###################
         # Security Group of your master
-        self.SECURITY_GROUP_ID = 'sg-0ad9dd43f69b8fbe4'
+        self.SECURITY_GROUP_ID = 'sg-0b1baa3dac156d768'
         # key file of master server
         ## Change as per your key
-        self.KEY_FILENAME = 'sg_ec2_key' #'michael'
+        self.KEY_FILENAME = 'ec2controller'
 
 if __name__ == '__main__':
     g = GlobalConstants()

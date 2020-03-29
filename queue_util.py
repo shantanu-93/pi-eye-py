@@ -129,5 +129,5 @@ if __name__ == "__main__":
         #     }
         msg_body = 'record.h264'
         print()
-        print(send_msg(const.ANALYSIS_QUEUE, {}, msg_body))
+        # print(send_msg(const.ANALYSIS_QUEUE, {}, msg_body))
         print()

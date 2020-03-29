@@ -75,6 +75,7 @@ def create_instance(count):
         #     'Name': 'string'
         # },
         InstanceInitiatedShutdownBehavior='stop',
+        UserData = 'start_script.py'
     )
 
 # instance_id is a list
@@ -108,6 +109,6 @@ def stop_instances(instance_id):
         print(e)
 
 if __name__ == "__main__":
-    create_instance(1)
+    create_instance(5)
     # instances = get_ec2_ids_state()
     # stop_instances([k for k,v in instances.items() if v == 'running'])
