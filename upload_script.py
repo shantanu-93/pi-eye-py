@@ -9,7 +9,7 @@ import queue_util as queue_util
 import s3_util as s3_util
 # from find_most_recent import allFilesIn
 import time
-from math import ceil,floor
+from math import ceil,floor,m
 
 const = GlobalConstants()
 
@@ -32,7 +32,7 @@ def distribute_work_pi_ec2(pi_video_count, new_video_count):
         pending_msg_count = int(queue_util.get_msg_count(queue_url))
         if pending_msg_count > const.MAX_WORKERS - const.MIN_NO_AXN:
             # say there are 23 new vids, pi threshold(4) and max(19) ec2 workers are running, divide 4:19
-            distribute_load = floor((new_video_count)/const.MIN_NO_AXN)-1
+            distribute_load = ab floor((new_video_count)/const.MIN_NO_AXN)-1
             # distribute_load = int((const.MIN_NO_AXN*new_video_count)//(const.MAX_WORKERS + const.MIN_NO_AXN))
             return distribute_load, new_video_count-distribute_load
         else:
@@ -61,12 +61,12 @@ if __name__ == '__main__':
             # assign videos to pi and ec2
             start = time.time()
             list_of_files = glob.glob(recording_vids)
-            pi_video_count = len(glob.glob(pi_vids))
-            new_video_count = len(list_of_files)
-            pi,ec2 = distribute_work_pi_ec2(pi_video_count, new_video_count)
-            print("Pi count {} EC2 count {}".format(pi, ec2))
 
             if len(list_of_files)>0:
+                pi_video_count = len(glob.glob(pi_vids))
+                new_video_count = len(list_of_files)
+                pi,ec2 = distribute_work_pi_ec2(pi_video_count, new_video_count)
+                print("Pi count {} EC2 count {}".format(pi, ec2))
                 # move videos to /pi_videos
                 moved_to_pi = []
                 for _ in range(pi):
