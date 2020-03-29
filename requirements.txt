@@ -1,3 +1,4 @@
 boto3
 psutil
 ec2_metadata
+awscli
