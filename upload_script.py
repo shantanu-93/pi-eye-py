@@ -58,7 +58,7 @@ if __name__ == '__main__':
             if len(list_of_files)>0:
                 # move videos to /pi_videos
                 for _ in range(pi):
-                    latest_subdir = os.path.abspath(min(list_of_files, key=os.path.getmtime))
+                    latest_subdir = os.path.abspath(min(glob.glob(recording_vids), key=os.path.getmtime))
                     # print(latest_subdir)
                     subprocess.run((' ').join(['mv',latest_subdir,os.path.expanduser('~/pi-eye-py/pi_videos/')]),shell=True, check=True)
                 print("\n Time taken to move to pi videos: ",time.time()-start)
