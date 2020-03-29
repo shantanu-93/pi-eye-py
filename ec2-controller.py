@@ -8,14 +8,14 @@ if __name__ == "__main__":
     # while True:
     instances = ec2.get_ec2_ids_state()
     active_instances = len(instances)
-    watiing_msg_count = int(queue_util.get_msg_count(const.ANALYSIS_QUEUE_URL))
+    watiing_msg_count = int(queue_util.get_msg_count(queue_util.get_queue_url(const.ANALYSIS_QUEUE)))
     print(watiing_msg_count)
-    if watiing_msg_count>const.MIN_NO_AXN:
+    if watiing_msg_count:
         stopped_instances = [k for k,v in instances.items() if v == 'stopped']
-        start_count = min(len(stopped_instances), watiing_msg_count-const.MIN_NO_AXN)
+        start_count = min(len(stopped_instances), watiing_msg_count)
         create_count = 0
-        if start_count < watiing_msg_count-const.MIN_NO_AXN:
-            create_count = watiing_msg_count - const.MIN_NO_AXN - start_count
+        if start_count < watiing_msg_count:
+            create_count = watiing_msg_count - start_count
         if start_count>0:
             ec2.start_instances (stopped_instances [0:start_count])
         
@@ -30,3 +30,4 @@ if __name__ == "__main__":
         # stdin, stdout, stderr = client.exec_command('exit')
         # print(stdout)
         # client.close()
+
