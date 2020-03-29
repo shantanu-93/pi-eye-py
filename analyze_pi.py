@@ -49,10 +49,9 @@ if __name__ == '__main__':
                     # output_file = result_file.replace('_result','_output')
                     # with open(output_file, 'w+') as fout:
                     #     fout.write(str(out))
-                    result_key = str(filename[:-5] + '_result.txt')
                     result_body = parse.parse_result(out)
-                    s3_util.upload_results(result_key,result_body)
-                    print("\nUploaded Result File: {} , detected: {} \n".format(result_key,result_body))
+                    s3_util.upload_results(filename,result_body)
+                    print("\nUploaded Result File: {} , detected: {} \n".format(filename,result_body))
                     subprocess.run((' ').join(['mv',latest_subdir,processed_dir]),shell=True, check=True)
                     # TODO: comment above uncomment below
                     # os.system('rm -rf %s' %latest_subdir)
