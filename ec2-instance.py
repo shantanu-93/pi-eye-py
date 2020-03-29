@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import queue_util as queue_util
 import s3_util as s3_util
 import subprocess
@@ -37,14 +39,13 @@ def analyze_ec2(filename): # const.VIDEO_BUCKET, filename, os.path.join(target_d
     command = "./darknet detector demo cfg/coco.data cfg/yolov3-tiny.cfg yolov3-tiny.weights {0}".format(abs_path)
     proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
-    
     with open(result_file, 'w') as fout:
       fout.write(str(out))
     with open(output_file, 'w') as fout:
       fout.write(str(parse.parse_result(result_file)))
     
     
-    s3_util.upload_results([output_file])
+    s3_util.upload_results(['test'])
     #move from /ec2_videos to /ec2_results
     os.system('mv {0} {1}'.format(output_file,result_dir))
     #remove
@@ -56,11 +57,12 @@ if __name__ == '__main__':
             filename, receipt_handle = queue_util.receive_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE))
             if filename is not None:
                 analyze_ec2(filename)
-                queue_util.delete_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE),filename,receipt_handle)
+                #queue_util.delete_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE),filename,receipt_handle)
+		            print('done processing....\n')
             else:
                 # stop logic
                 instance_id = ec2_metadata.instance_id # urllib.request.urlopen('http://169.254.169.254/latest/meta-data/instance-id').read().decode()
-                print('shutting down...\n')
+                print('no pending request, shutting down...\n')
                 ec2_util.stop_instances([instance_id])
         else:
             pass
