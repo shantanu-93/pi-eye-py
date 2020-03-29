@@ -9,7 +9,7 @@ import queue_util as queue_util
 import s3_util as s3_util
 # from find_most_recent import allFilesIn
 import time
-from math import ceil,floor,m
+from math import ceil,floor
 
 const = GlobalConstants()
 
@@ -32,7 +32,7 @@ def distribute_work_pi_ec2(pi_video_count, new_video_count):
         pending_msg_count = int(queue_util.get_msg_count(queue_url))
         if pending_msg_count > const.MAX_WORKERS - const.MIN_NO_AXN:
             # say there are 23 new vids, pi threshold(4) and max(19) ec2 workers are running, divide 4:19
-            distribute_load = ab floor((new_video_count)/const.MIN_NO_AXN)-1
+            distribute_load = floor((new_video_count)/const.MIN_NO_AXN)-1
             # distribute_load = int((const.MIN_NO_AXN*new_video_count)//(const.MAX_WORKERS + const.MIN_NO_AXN))
             return distribute_load, new_video_count-distribute_load
         else:
