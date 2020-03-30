@@ -2,6 +2,7 @@ import ec2_util as ec2
 import queue_util as queue_util
 from global_constants import GlobalConstants
 import sys
+import time
 # import paramiko as pk
 const = GlobalConstants()
 
@@ -9,7 +10,7 @@ if __name__ == "__main__":
     try:
         while True:
             instances = ec2.get_ec2_ids_state()
-            active_instances = len(instances) - 1
+            active_instances = [k for k,v in instances.items() if v == 'stopped' or v == 'running']
             # print(instances)
             watiing_msg_count = int(queue_util.get_msg_count(queue_util.get_queue_url(const.ANALYSIS_QUEUE)))
             print("Messages in queue:\n" + str(watiing_msg_count))
@@ -31,6 +32,7 @@ if __name__ == "__main__":
                     ec2.create_instance(num)
 
                 print('polling queue....\n')
+                time.sleep(60)
                 # client = pk.SSHClient()
                 # client.set_missing_host_key_policy(pk.AutoAddPolicy())
                 # client.connect('x.x.x.x', port=2222, username='user', password='pass')
