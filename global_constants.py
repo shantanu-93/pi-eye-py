@@ -24,7 +24,7 @@ class GlobalConstants:
         # self.SECRET_KEY = str(secret_key)
 
         # minimum number of requests above which to create a new instance
-        self.MIN_NO_AXN = 4
+        self.MIN_NO_AXN = 7
         # maximum number of worker instances
         self.MAX_WORKERS = 19
         # AMI image to create new instances
