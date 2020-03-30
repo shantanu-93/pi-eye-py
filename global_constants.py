@@ -28,11 +28,11 @@ class GlobalConstants:
         # maximum number of worker instances
         self.MAX_WORKERS = 19
         # AMI image to create new instances
-        self.AMI_ID = 'ami-0f167bb7dd5b1c274'
+        self.AMI_ID = 'ami-01b369266bea116bf'
 
         ################ CONFIGURABLE PARAMS - CHANGE AS PER YOUR EC2 ###################
         # Security Group of your master
-        self.SECURITY_GROUP_ID = 'sg-0b1baa3dac156d768'
+        self.SECURITY_GROUP_ID = 'sg-041e7aa2d35265c1d'
         # key file of master server
         ## Change as per your key
         self.KEY_FILENAME = 'ec2controller'
