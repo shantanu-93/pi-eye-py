@@ -8,16 +8,18 @@ import psutil
 from global_constants import GlobalConstants
 import parse
 import os
-import time as time
+import time
 import ec2_util as ec2_util
 from ec2_metadata import ec2_metadata
-
+import sys
+# import requests
 const = GlobalConstants()
 
-result_dir = os.path.expanduser(os.path.join('~','pi-eye-py','ec2_results'))
-print("result dir:" +result_dir)
-if not os.path.isdir(result_dir):
-  os.mkdir(result_dir)
+processed_dir = os.path.expanduser(os.path.join('~','pi-eye-py','ec2_results'))
+print("result dir:" +processed_dir)
+queue_url = queue_util.get_queue_url(const.ANALYSIS_QUEUE)
+if not os.path.isdir(processed_dir):
+  os.mkdir(processed_dir)
 
 vid_dir = os.path.expanduser(os.path.join('~','pi-eye-py','ec2_videos'))
 print("vid dir:" + vid_dir)
@@ -26,45 +28,67 @@ if not os.path.isdir(vid_dir):
 
 # /home/shantanu/Desktop/repos/darknet
 
-def analyze_ec2(filename): # const.VIDEO_BUCKET, filename, os.path.join(target_dir,filename)
-    # download video file to dir
+def analyze_ec2(filename):
+    start = time.time()
+    # download video file to vid_dir
     s3_util.download_video(filename, vid_dir)
+    print("time to download {} is {}".format(filename,time.time()-start))
     abs_path = os.path.join(vid_dir,filename)
-    #print("abs_path:" + abs_path)
+    #print("filename: " + filename)
+    #print("abs_path: " + abs_path)
     print("current file being processed is : " + filename)
-    result_file = abs_path[:-5] + '_result.txt'
-    #print("result file:" + result_file)
     os.chdir(os.path.expanduser("~/darknet"))
-    output_file = result_file.replace('_result','_output')
-    print("output file:" + output_file)
     command = "./darknet detector demo cfg/coco.data cfg/yolov3-tiny.cfg yolov3-tiny.weights {0}".format(abs_path)
     proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
-    # out = []
-    with open(result_file, 'w') as fout:
-      fout.write(str(out))
-    with open(output_file, 'w') as fout:
-      fout.write(str(out))
-    #parse.parse_result(result_file)
-    text = filename + '_testing'
-    s3_util.upload_results(text,'work?')
+    print("time to analyze video {} is {}".format(filename,time.time()-start))
+    result_value = parse.parse_result(out)
     #move from /ec2_videos to /ec2_results
-    os.system('mv {0} {1}'.format(output_file,result_dir))
-    #remove
+    try:
+      # subprocess.run((' ').join(['mv',abs_path,processed_dir]),shell=True, check=True)
+      subprocess.run((' ').join(['rm', '-rf', abs_path]),shell=True, check=True)
+    except:
+      print("Unexpected error while moving file: " + str(sys.exc_info()[0]))
+    return result_value
 
 if __name__ == '__main__':
 
     while(1):
         if (psutil.cpu_percent() <= 85):
-            filename, receipt_handle = queue_util.receive_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE))
+            try:
+              filename, receipt_handle = queue_util.receive_msg(queue_url)
+              print('Received file ',filename)
+            except:
+              print("Unexpected error while receiving message: " + str(sys.exc_info()[0]))
+              continue
+              # raise
+
             if filename is not None:
-                analyze_ec2(filename)
-                queue_util.delete_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE),filename,receipt_handle)
-                print('done processing....\n')
+                result_value = analyze_ec2(os.path.basename(filename))
+                try:
+                  print('done processing.... detected: %s\n' %result_value)
+                  queue_util.delete_msg(queue_url,filename,receipt_handle)
+                  s3_util.upload_results(filename,result_value)
+                except:
+                  print("Unexpected error while deleting message: " + str(sys.exc_info()[0]))
             else:
                 # stop logic
-                instance_id = ec2_metadata.instance_id # urllib.request.urlopen('http://169.254.169.254/latest/meta-data/instance-id').read().decode()
-                print('no pending request, shutting down...\n')
-                ec2_util.stop_instances([instance_id])
+                instance_id = ec2_metadata.instance_id
+                # alternative logic
+                # count = 0
+                # instance_id = ''
+                # while instance_id == '':
+                #   try:
+                #     r = requests.get("http://169.254.169.254/latest/dynamic/instance-identity/document")
+                #     response_json = r.json()
+                #     region = response_json.get('region')
+                #     instance_id = response_json.get('instanceId')
+                #   except:
+                #     count +=1
+                # print('No pending request, shutting down... on count ',count)
+                if instance_id != '': 
+                  print('No pending request, shutting down...')
+                  ec2_util.stop_instances([instance_id])
+                  break
         else:
             pass

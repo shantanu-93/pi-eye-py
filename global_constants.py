@@ -24,18 +24,18 @@ class GlobalConstants:
         # self.SECRET_KEY = str(secret_key)
 
         # minimum number of requests above which to create a new instance
-        self.MIN_NO_AXN = 4
+        self.MIN_NO_AXN = 7
         # maximum number of worker instances
         self.MAX_WORKERS = 19
         # AMI image to create new instances
-        self.AMI_ID = 'ami-0f167bb7dd5b1c274'
+        self.AMI_ID = 'ami-0c4e4d58e7d10f054'
 
         ################ CONFIGURABLE PARAMS - CHANGE AS PER YOUR EC2 ###################
         # Security Group of your master
-        self.SECURITY_GROUP_ID = 'sg-0b1baa3dac156d768'
+        self.SECURITY_GROUP_ID = 'sg-081585a0f861e4632' #'sg-041e7aa2d35265c1d'
         # key file of master server
         ## Change as per your key
-        self.KEY_FILENAME = 'ec2controller'
+        self.KEY_FILENAME = 'cc546'
 
 if __name__ == '__main__':
     g = GlobalConstants()

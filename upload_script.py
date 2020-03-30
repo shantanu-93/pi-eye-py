@@ -123,7 +123,7 @@ if __name__ == '__main__':
                             latest_subdir = min(vids, key=os.path.getmtime)
                             sent_to_ec2.append(latest_subdir)
                             # print(latest_subdir)
-                            MessageBody=str(latest_subdir)
+                            MessageBody=os.path.basename(latest_subdir)
                             ret = sqs.send_message(QueueUrl=queue_url,MessageBody=MessageBody,MessageGroupId='msggpid1')
                             print(latest_subdir," sent to queue!")
                             subprocess.run((' ').join(['mv',latest_subdir,os.path.expanduser('~/pi-eye-py/analysis_queue_videos')]),shell=True, check=True)
