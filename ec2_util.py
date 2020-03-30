@@ -111,16 +111,16 @@ def start_instances(instance_id):
     count = len(instance_id)
     try:
         ec2_client.start_instances(InstanceIds=instance_id, DryRun=True)
-        ec2_client.run_instances(ImageId= const.AMI_ID,DryRun=True,MinCount=1,InstanceType='t2.micro',SecurityGroupIds=[
-            const.SECURITY_GROUP_ID],MaxCount=count,UserData=script)
+        # ec2_client.run_instances(ImageId= const.AMI_ID,DryRun=True,MinCount=1,InstanceType='t2.micro',SecurityGroupIds=[
+        #     const.SECURITY_GROUP_ID],MaxCount=count,UserData=script)
     except ClientError as e:
         if 'DryRunOperation' not in str(e):
             raise
     # Dry run succeeded, run start_instances without dryrun
     try:
         response = ec2_client.start_instances(InstanceIds=instance_id, DryRun=False)
-        ec2_client.run_instances(ImageId= const.AMI_ID,DryRun=False,MinCount=1,InstanceType='t2.micro',SecurityGroupIds=[
-            const.SECURITY_GROUP_ID],MaxCount=count,UserData=script)
+        # ec2_client.run_instances(ImageId= const.AMI_ID,DryRun=False,MinCount=1,InstanceType='t2.micro',SecurityGroupIds=[
+        #     const.SECURITY_GROUP_ID],MaxCount=count,UserData=script)
         #print(response)
     except ClientError as e:
         print(e)

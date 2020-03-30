@@ -18,7 +18,7 @@ result_dir = os.path.expanduser(os.path.join('~','pi-eye-py','ec2_results'))
 print("result dir:" +result_dir)
 if not os.path.isdir(result_dir):
   os.mkdir(result_dir)
-  
+
 vid_dir = os.path.expanduser(os.path.join('~','pi-eye-py','ec2_videos'))
 print("vid dir:" + vid_dir)
 if not os.path.isdir(vid_dir):
@@ -36,11 +36,11 @@ def analyze_ec2(filename): # const.VIDEO_BUCKET, filename, os.path.join(target_d
     #print("result file:" + result_file)
     os.chdir(os.path.expanduser("~/darknet"))
     output_file = result_file.replace('_result','_output')
-    #print("output file:" + output_file)
-    #command = "./darknet detector demo cfg/coco.data cfg/yolov3-tiny.cfg yolov3-tiny.weights {0}".format(abs_path)
-    #proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
-    #(out, err) = proc.communicate()
-    out = []
+    print("output file:" + output_file)
+    command = "./darknet detector demo cfg/coco.data cfg/yolov3-tiny.cfg yolov3-tiny.weights {0}".format(abs_path)
+    proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
+    (out, err) = proc.communicate()
+    # out = []
     with open(result_file, 'w') as fout:
       fout.write(str(out))
     with open(output_file, 'w') as fout:
@@ -53,13 +53,13 @@ def analyze_ec2(filename): # const.VIDEO_BUCKET, filename, os.path.join(target_d
     #remove
 
 if __name__ == '__main__':
-    
+
     while(1):
         if (psutil.cpu_percent() <= 85):
             filename, receipt_handle = queue_util.receive_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE))
             if filename is not None:
                 analyze_ec2(filename)
-		            queue_util.delete_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE),filename,receipt_handle)
+                queue_util.delete_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE),filename,receipt_handle)
                 print('done processing....\n')
             else:
                 # stop logic
