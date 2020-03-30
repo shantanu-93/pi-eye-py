@@ -8,10 +8,31 @@ from botocore.exceptions import ClientError
 const = global_constants.GlobalConstants()
 
 
-script = """#!/bin/bash
-echo "automatically generated from user data"
-python3 ec2-instance.py
-"""
+script = '''
+Content-Type: multipart/mixed; boundary="//"
+MIME-Version: 1.0
+
+--//
+Content-Type: text/cloud-config; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="cloud-config.txt"
+
+#cloud-config
+cloud_final_modules:
+- [scripts-user, always]
+
+--//
+Content-Type: text/x-shellscript; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="userdata.txt"
+
+#!/bin/bash
+/bin/echo "Hello World" >> /tmp/testfile.txt
+python3 /home/ubuntu/pi-eye-py/ec2-instance.py
+--//
+'''
 
 sqs = boto3.client('sqs')
 ''', region_name=const.REGION,
@@ -81,23 +102,26 @@ def create_instance(count):
         #     'Name': 'string'
         # },
         InstanceInitiatedShutdownBehavior='stop',
-        UserData = script,
+        UserData =script,
     )
 
 # instance_id is a list
 def start_instances(instance_id):
     # Do a dryrun first to verify permissions
+    count = len(instance_id)
     try:
         ec2_client.start_instances(InstanceIds=instance_id, DryRun=True)
-        ec2_client.run_instances(DryRun=True,MinCount=1,MaxCount=1,UserData=script)
+        ec2_client.run_instances(ImageId= const.AMI_ID,DryRun=True,MinCount=1,InstanceType='t2.micro',SecurityGroupIds=[
+            const.SECURITY_GROUP_ID],MaxCount=count,UserData=script)
     except ClientError as e:
         if 'DryRunOperation' not in str(e):
             raise
     # Dry run succeeded, run start_instances without dryrun
     try:
         response = ec2_client.start_instances(InstanceIds=instance_id, DryRun=False)
-        ec2_client.run_instances(DryRun=False,MinCount=1,MaxCount=1,UserData=script)
-        print(response)
+        ec2_client.run_instances(ImageId= const.AMI_ID,DryRun=False,MinCount=1,InstanceType='t2.micro',SecurityGroupIds=[
+            const.SECURITY_GROUP_ID],MaxCount=count,UserData=script)
+        #print(response)
     except ClientError as e:
         print(e)
 

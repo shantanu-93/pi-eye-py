@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import boto3
 import queue_util as queue_util
 import s3_util as s3_util
 import subprocess
@@ -36,16 +37,17 @@ def analyze_ec2(filename): # const.VIDEO_BUCKET, filename, os.path.join(target_d
     os.chdir(os.path.expanduser("~/darknet"))
     output_file = result_file.replace('_result','_output')
     #print("output file:" + output_file)
-    command = "./darknet detector demo cfg/coco.data cfg/yolov3-tiny.cfg yolov3-tiny.weights {0}".format(abs_path)
-    proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
-    (out, err) = proc.communicate()
+    #command = "./darknet detector demo cfg/coco.data cfg/yolov3-tiny.cfg yolov3-tiny.weights {0}".format(abs_path)
+    #proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
+    #(out, err) = proc.communicate()
+    out = []
     with open(result_file, 'w') as fout:
       fout.write(str(out))
     with open(output_file, 'w') as fout:
-      fout.write(str(parse.parse_result(result_file)))
-    
-    
-    s3_util.upload_results(['test'])
+      fout.write(str(out))
+    #parse.parse_result(result_file)
+    text = filename + '_testing'
+    s3_util.upload_results(text,'work?')
     #move from /ec2_videos to /ec2_results
     os.system('mv {0} {1}'.format(output_file,result_dir))
     #remove
@@ -57,8 +59,8 @@ if __name__ == '__main__':
             filename, receipt_handle = queue_util.receive_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE))
             if filename is not None:
                 analyze_ec2(filename)
-                #queue_util.delete_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE),filename,receipt_handle)
-		            print('done processing....\n')
+		            queue_util.delete_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE),filename,receipt_handle)
+                print('done processing....\n')
             else:
                 # stop logic
                 instance_id = ec2_metadata.instance_id # urllib.request.urlopen('http://169.254.169.254/latest/meta-data/instance-id').read().decode()

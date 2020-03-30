@@ -118,16 +118,5 @@ if __name__ == "__main__":
     # qs = get_all_queues()
     # for q in qs:
     #     print(q)
-
-    # push 10 dummy messages to queue
-    for i in range(1):
-        # message_attrib = {
-        #         'filename' : {
-        #             'DataType': 'String',
-        #             'StringValue': 'record.h264'
-        #         }
-        #     }
-        msg_body = 'record.h264'
-        print()
-        # print(send_msg(const.ANALYSIS_QUEUE, {}, msg_body))
-        print()
+    #send_msg(get_queue_url(const.ANALYSIS_QUEUE),"test", {})
+    pass
