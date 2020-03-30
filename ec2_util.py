@@ -30,6 +30,7 @@ Content-Disposition: attachment; filename="userdata.txt"
 
 #!/bin/bash
 /bin/echo "Hello World" >> /tmp/testfile.txt
+python3 /home/ubuntu/pi-eye-py/ec2-instance.py
 --//
 '''
 
