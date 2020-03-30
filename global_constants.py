@@ -32,10 +32,10 @@ class GlobalConstants:
 
         ################ CONFIGURABLE PARAMS - CHANGE AS PER YOUR EC2 ###################
         # Security Group of your master
-        self.SECURITY_GROUP_ID = 'sg-041e7aa2d35265c1d'
+        self.SECURITY_GROUP_ID = 'sg-081585a0f861e4632' #'sg-041e7aa2d35265c1d'
         # key file of master server
         ## Change as per your key
-        self.KEY_FILENAME = 'ec2controller'
+        self.KEY_FILENAME = 'cc546'
 
 if __name__ == '__main__':
     g = GlobalConstants()
