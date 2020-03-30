@@ -3,8 +3,8 @@ class GlobalConstants:
 
     def __init__(self):
         # S3 buckets
-        self.VIDEO_BUCKET = 'content-bucket-546'
-        self.RESULTS_BUCKET = 'results-bucket-546'
+        self.VIDEO_BUCKET = 'my-content-bucket-546'
+        self.RESULTS_BUCKET = 'my-results-bucket-546'
         # Queue names
         self.CONTENT_QUEUE = 'content-upload-q.fifo'
         self.ANALYSIS_QUEUE = 'video-analysis-q.fifo'
@@ -28,11 +28,11 @@ class GlobalConstants:
         # maximum number of worker instances
         self.MAX_WORKERS = 19
         # AMI image to create new instances
-        self.AMI_ID = 'ami-0903fd482d7208724'
+        self.AMI_ID = 'ami-0f167bb7dd5b1c274'
 
         ################ CONFIGURABLE PARAMS - CHANGE AS PER YOUR EC2 ###################
         # Security Group of your master
-        self.SECURITY_GROUP_ID = 'sg-0ad9dd43f69b8fbe4'
+        self.SECURITY_GROUP_ID = 'sg-0b1baa3dac156d768'
         # key file of master server
         ## Change as per your key
         self.KEY_FILENAME = 'sg_ec2_key' #'michael'

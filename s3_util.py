@@ -2,7 +2,7 @@ import boto3
 import os
 from global_constants import GlobalConstants
 from botocore.exceptions import NoCredentialsError
-
+import glob
 """
 Upload file objects to S3
 """
@@ -51,6 +51,9 @@ if __name__ == "__main__":
     # upload_results([os.path.expanduser('~/pi-eye-py/pi_outputs/2020-03-25_04.37.54_output.txt')])
     #upload_videos(['.\\analysis_queue_videos\\f1.h264'])
     # download_video('record.h264', '.\\analysis_queue_videos')
+    recording_vids = os.path.expanduser('~/pi-eye-py/processed_videos/*.h264')
+    list_of_files = glob.glob(recording_vids)
+    upload_videos(list_of_files)
     print("pass")
 
 
