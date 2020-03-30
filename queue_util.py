@@ -20,7 +20,7 @@ def create_queue(q_name, delay_sec = None, retention_pd = None):
             # 'DelaySeconds': '60' if delay_sec is None else str(delay_sec),
             # 'MessageRetentionPeriod': '86400' if retention_pd is None else str(retention_pd),
             'FifoQueue': 'true',
-            'ContentBasedDeduplication ' : 'true'
+            'ContentBasedDeduplication ' : 'true',
         }
     )
     print(response['QueueUrl'])
@@ -82,7 +82,7 @@ def receive_msg(queue_url):
         AttributeNames=['SentTimestamp'],
         MaxNumberOfMessages=1,
         MessageAttributeNames=['All'],
-        VisibilityTimeout=120,
+        #VisibilityTimeout=120,
         WaitTimeSeconds=20
     )
     # if response in not None

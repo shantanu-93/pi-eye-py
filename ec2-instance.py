@@ -38,6 +38,9 @@ def analyze_ec2(filename):
     #print("abs_path: " + abs_path)
     print("current file being processed is : " + filename)
     os.chdir(os.path.expanduser("~/darknet"))
+    com = "Xvfb :1 & export DISPLAY=:1"
+    proc = subprocess.Popen([com], stdout=subprocess.PIPE, shell=True)
+    (out, err) = proc.communicate()
     command = "./darknet detector demo cfg/coco.data cfg/yolov3-tiny.cfg yolov3-tiny.weights {0}".format(abs_path)
     proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
@@ -67,10 +70,11 @@ if __name__ == '__main__':
                 result_value = analyze_ec2(os.path.basename(filename))
                 try:
                   print('done processing.... detected: %s\n' %result_value)
-                  queue_util.delete_msg(queue_url,filename,receipt_handle)
                   s3_util.upload_results(filename,result_value)
+                  queue_util.delete_msg(queue_url,filename,receipt_handle)
                 except:
                   print("Unexpected error while deleting message: " + str(sys.exc_info()[0]))
+                  raise
             else:
                 # stop logic
                 instance_id = ec2_metadata.instance_id
@@ -88,7 +92,7 @@ if __name__ == '__main__':
                 # print('No pending request, shutting down... on count ',count)
                 if instance_id != '': 
                   print('No pending request, shutting down...')
-                  ec2_util.stop_instances([instance_id])
+                  #ec2_util.stop_instances([instance_id])
                   break
         else:
             pass
