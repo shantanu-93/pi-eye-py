@@ -92,7 +92,7 @@ if __name__ == '__main__':
                 # print('No pending request, shutting down... on count ',count)
                 if instance_id != '': 
                   print('No pending request, shutting down...')
-                  #ec2_util.stop_instances([instance_id])
+                  ec2_util.stop_instances([instance_id])
                   break
         else:
             pass
