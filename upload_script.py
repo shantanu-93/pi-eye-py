@@ -40,6 +40,7 @@ def distribute_work_pi_ec2(pi_video_count, new_video_count):
     #         # say there are 23 new vids, pi threshold(4) and max(19) ec2 workers are running, divide 4:19
     #         distribute_load = floor((new_video_count)/const.MIN_NO_AXN)-1
     #         # distribute_load = int((const.MIN_NO_AXN*new_video_count)//(const.MAX_WORKERS + const.MIN_NO_AXN))
+    #         print("Pi {} EC2 {}".format(distribute_load, new_video_count-distribute_load))
     #         return distribute_load, new_video_count-distribute_load
     #     else:
     #         assign_pi = const.MIN_NO_AXN - pi_video_count
@@ -59,14 +60,16 @@ def distribute_work_pi_ec2(pi_video_count, new_video_count):
                 assign_ec2 += temp
                 # assign for value of threshold
             else:
-                temp = min(const.MIN_NO_AXN,new_video_count)
-                new_video_count -= temp
-                assign_pi+=temp
+                if ((pending_msg_count+assign_ec2)*const.MIN_NO_AXN)<((pi_video_count+assign_pi)*const.MAX_WORKERS):
+                    temp = min(const.MAX_WORKERS,new_video_count)
+                    new_video_count -= temp
+                    assign_ec2 += temp
+                else:
+                    temp = min(const.MIN_NO_AXN,new_video_count)
+                    new_video_count -= temp
+                    assign_pi+=temp
 
                 # assign one each for all ec2 instances
-                temp = min(const.MAX_WORKERS,new_video_count)
-                new_video_count -= temp
-                assign_ec2 += temp
                 # if new_video_count>0:
                 #     temp += min(const.MAX_WORKERS,new_video_count)
                 #     new_video_count -= temp
