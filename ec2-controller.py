@@ -32,7 +32,7 @@ if __name__ == "__main__":
                     ec2.create_instance(num)
 
                 print('polling queue....\n')
-                time.sleep(60)
+                time.sleep(80)
                 # client = pk.SSHClient()
                 # client.set_missing_host_key_policy(pk.AutoAddPolicy())
                 # client.connect('x.x.x.x', port=2222, username='user', password='pass')
