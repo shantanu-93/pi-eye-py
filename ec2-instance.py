@@ -64,9 +64,8 @@ if __name__ == '__main__':
             if filename is not None:
                 result_value = analyze_ec2(os.path.basename(filename))
                 try:
-                  queue_util.delete_msg(queue_url,filename,receipt_handle)
                   print('done processing.... detected: %s\n' %result_value)
-
+                  queue_util.delete_msg(queue_url,filename,receipt_handle)
                   s3_util.upload_results(filename,result_value)
                 except:
                   print("Unexpected error while deleting message: " + str(sys.exc_info()[0]))
