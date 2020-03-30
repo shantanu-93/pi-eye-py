@@ -8,9 +8,30 @@ from botocore.exceptions import ClientError
 const = global_constants.GlobalConstants()
 
 
-script = '''#!/bin/bash
-/bin/echo 'test' >> /tmp/data.txt
-/bin/python3 /home/ubuntu/pi-eye-py/ec2-instance.py'''
+script = '''
+Content-Type: multipart/mixed; boundary="//"
+MIME-Version: 1.0
+
+--//
+Content-Type: text/cloud-config; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="cloud-config.txt"
+
+#cloud-config
+cloud_final_modules:
+- [scripts-user, always]
+
+--//
+Content-Type: text/x-shellscript; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="userdata.txt"
+
+#!/bin/bash
+/bin/echo "Hello World" >> /tmp/testfile.txt
+--//
+'''
 
 sqs = boto3.client('sqs')
 ''', region_name=const.REGION,
@@ -80,7 +101,7 @@ def create_instance(count):
         #     'Name': 'string'
         # },
         InstanceInitiatedShutdownBehavior='stop',
-        UserData = script,
+        UserData =script,
     )
 
 # instance_id is a list

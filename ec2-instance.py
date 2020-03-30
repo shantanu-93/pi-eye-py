@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import boto3
 import queue_util as queue_util
 import s3_util as s3_util
 import subprocess
@@ -58,7 +59,7 @@ if __name__ == '__main__':
             filename, receipt_handle = queue_util.receive_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE))
             if filename is not None:
                 analyze_ec2(filename)
-		#queue_util.delete_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE),filename,receipt_handle)
+		            queue_util.delete_msg(queue_util.get_queue_url(const.ANALYSIS_QUEUE),filename,receipt_handle)
                 print('done processing....\n')
             else:
                 # stop logic

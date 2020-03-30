@@ -7,7 +7,7 @@ const = GlobalConstants()
 if __name__ == "__main__":
     # while True:
     instances = ec2.get_ec2_ids_state()
-    active_instances = len(instances)
+    active_instances = len(instances) - 1
     print(instances)
     watiing_msg_count = int(queue_util.get_msg_count(queue_util.get_queue_url(const.ANALYSIS_QUEUE)))
     print(watiing_msg_count)
