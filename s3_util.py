@@ -3,10 +3,11 @@ import os
 from codecs import lookup
 
 import boto3
-from botocore.exceptions import NoCredentialsError
+from botocore.exceptions import NoCredentialsError,ClientError
 from datetime import datetime, timezone, timedelta
 from global_constants import GlobalConstants
 import csv
+import sys
 
 """
 Upload file objects to S3
@@ -28,7 +29,13 @@ def upload_videos(video_files): # earlier ec2_vids
     content_bucket = s3_resource.Bucket(const.VIDEO_BUCKET)
     for video_file in video_files:
         data = open(video_file, 'rb')
-        content_bucket.put_object(Key=os.path.basename(video_file), Body=data)
+        filename = os.path.basename(video_file)
+        try:
+            content_bucket.put_object(Key=filename, Body=data)
+        except ClientError:
+            print("Error in file %s" %filename)
+            print("Botocore error: " + str(sys.exc_info()[0]))
+            s3_client.Bucket(const.VIDEO_BUCKET).put_object(Key=filename, Body=data)
 
 # upload results to s3
 # results is a list

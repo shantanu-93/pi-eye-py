@@ -9,7 +9,7 @@ if __name__ == "__main__":
     try:
         while True:
             instances = ec2.get_ec2_ids_state()
-            active_instances = len(instances) - 1
+            active_instances = len([k for k,v in instances.items() if v == 'stopped' or v == 'running']) - 1
             # print(instances)
             watiing_msg_count = int(queue_util.get_msg_count(queue_util.get_queue_url(const.ANALYSIS_QUEUE)))
             print("Messages in queue:\n" + str(watiing_msg_count))

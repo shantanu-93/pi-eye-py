@@ -101,21 +101,21 @@ def create_instance(count):
         #     'Arn': 'string',
         #     'Name': 'string'
         # },
-        InstanceInitiatedShutdownBehavior='stop',
-        UserData =script,
+        InstanceInitiatedShutdownBehavior='stop'#,
+        # UserData =script,
     )
 
 # instance_id is a list
 def start_instances(instance_id):
     # Do a dryrun first to verify permissions
-    count = len(instance_id)
-    try:
-        ec2_client.start_instances(InstanceIds=instance_id, DryRun=True)
-        # ec2_client.run_instances(ImageId= const.AMI_ID,DryRun=True,MinCount=1,InstanceType='t2.micro',SecurityGroupIds=[
-        #     const.SECURITY_GROUP_ID],MaxCount=count,UserData=script)
-    except ClientError as e:
-        if 'DryRunOperation' not in str(e):
-            raise
+    # count = len(instance_id)
+    # try:
+    #     ec2_client.start_instances(InstanceIds=instance_id, DryRun=True)
+    #     # ec2_client.run_instances(ImageId= const.AMI_ID,DryRun=True,MinCount=1,InstanceType='t2.micro',SecurityGroupIds=[
+    #     #     const.SECURITY_GROUP_ID],MaxCount=count,UserData=script)
+    # except ClientError as e:
+    #     if 'DryRunOperation' not in str(e):
+    #         raise
     # Dry run succeeded, run start_instances without dryrun
     try:
         response = ec2_client.start_instances(InstanceIds=instance_id, DryRun=False)
@@ -128,11 +128,11 @@ def start_instances(instance_id):
 # instance_id is a list
 def stop_instances(instance_id):
     # Do a dryrun first to verify permissions
-    try:
-        ec2_client.stop_instances(InstanceIds=instance_id, DryRun=True)
-    except ClientError as e:
-        if 'DryRunOperation' not in str(e):
-            raise
+    # try:
+    #     ec2_client.stop_instances(InstanceIds=instance_id, DryRun=True)
+    # except ClientError as e:
+    #     if 'DryRunOperation' not in str(e):
+    #         raise
     # Dry run succeeded, call stop_instances without dryrun
     try:
         response = ec2_client.stop_instances(InstanceIds=instance_id, DryRun=False)
