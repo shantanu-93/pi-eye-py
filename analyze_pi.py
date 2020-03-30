@@ -52,9 +52,8 @@ if __name__ == '__main__':
                     result_body = parse.parse_result(out)
                     s3_util.upload_results(filename,result_body)
                     print("\nUploaded Result File: {} , detected: {} \n".format(filename,result_body))
-                    subprocess.run((' ').join(['mv',latest_subdir,processed_dir]),shell=True, check=True)
-                    # TODO: comment above uncomment below
-                    # os.system('rm -rf %s' %latest_subdir)
+                    # subprocess.run((' ').join(['mv',latest_subdir,processed_dir]),shell=True, check=True)
+                    subprocess.run((' ').join(['rm', '-rf', latest_subdir]),shell=True, check=True)
                 else:
                     time.sleep(2)
                 print("\nPolling pi_videos directory")

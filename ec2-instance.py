@@ -44,9 +44,11 @@ def analyze_ec2(filename):
     print("time to analyze video {} is {}".format(filename,time.time()-start))
     result_value = parse.parse_result(out)
     #move from /ec2_videos to /ec2_results
-    subprocess.run((' ').join(['mv',abs_path,processed_dir]),shell=True, check=True)
-    # TODO: comment above uncomment below
-    # subprocess.run((' ').join(['rm', '-rf', abs_path]),shell=True, check=True)
+    try:
+      # subprocess.run((' ').join(['mv',abs_path,processed_dir]),shell=True, check=True)
+      subprocess.run((' ').join(['rm', '-rf', abs_path]),shell=True, check=True)
+    except:
+      print("Unexpected error while moving file: " + str(sys.exc_info()[0]))
     return result_value
 
 if __name__ == '__main__':
@@ -58,7 +60,7 @@ if __name__ == '__main__':
               print('Received file ',filename)
             except:
               print("Unexpected error while receiving message: " + str(sys.exc_info()[0]))
-              filename = None
+              continue
               # raise
 
             if filename is not None:
