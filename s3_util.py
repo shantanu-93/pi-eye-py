@@ -4,7 +4,7 @@ from codecs import lookup
 
 import boto3
 from botocore.exceptions import NoCredentialsError,ClientError
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 from global_constants import GlobalConstants
 import csv
 import sys
