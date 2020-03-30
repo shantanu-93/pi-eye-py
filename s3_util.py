@@ -1,8 +1,13 @@
-import boto3
-import os
-from global_constants import GlobalConstants
-from botocore.exceptions import NoCredentialsError
 import glob
+import os
+from codecs import lookup
+
+import boto3
+from botocore.exceptions import NoCredentialsError
+from datetime import datetime, timezone, timedelta
+from global_constants import GlobalConstants
+import csv
+
 """
 Upload file objects to S3
 """
@@ -47,14 +52,18 @@ def download_video(filename, target_dir):
         print("Exception in se_util.download_video()")
     return True
 
+def get_result_time_stamp(filename):
+    result_bucket = s3_resource.Bucket(const.RESULTS_BUCKET)
+    print(result_bucket)
+    # for obj in s3_bucket.objects.all():
+    #     pass
+
+
+
 if __name__ == "__main__":
-    # upload_results([os.path.expanduser('~/pi-eye-py/pi_outputs/2020-03-25_04.37.54_output.txt')])
-    #upload_videos(['.\\analysis_queue_videos\\f1.h264'])
-    # download_video('record.h264', '.\\analysis_queue_videos')
-    recording_vids = os.path.expanduser('~/pi-eye-py/processed_videos/*.h264')
-    list_of_files = glob.glob(recording_vids)
-    upload_videos(list_of_files)
-    print("pass")
 
-
+    s3_client = boto3.client('s3',
+    aws_access_key_id='AKIA23OOWAPBPSRM2BMP',
+    aws_secret_access_key='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',
+    region_name='us-east-1')
 
