@@ -26,19 +26,53 @@ def get_file_numbers(dir):
 
 def distribute_work_pi_ec2(pi_video_count, new_video_count):
     # if pending on pi  less than threshold, assign difference with threshold to pi rest ec2
-    if pi_video_count+new_video_count <= const.MIN_NO_AXN:
-        return new_video_count, 0
-    else:
-        pending_msg_count = int(queue_util.get_msg_count(queue_url))
-        if pending_msg_count > const.MAX_WORKERS - const.MIN_NO_AXN:
-            # say there are 23 new vids, pi threshold(4) and max(19) ec2 workers are running, divide 4:19
-            distribute_load = floor((new_video_count)/const.MIN_NO_AXN)-1
-            # distribute_load = int((const.MIN_NO_AXN*new_video_count)//(const.MAX_WORKERS + const.MIN_NO_AXN))
-            return distribute_load, new_video_count-distribute_load
-        else:
-            assign_pi = const.MIN_NO_AXN - pi_video_count
-            return assign_pi, new_video_count-assign_pi
+    pending_msg_count = int(queue_util.get_msg_count(queue_url))
 
+    # total_videos = pi_video_count+new_video_count+pending_msg_count
+    assign_pi = 0 #int((const.MIN_NO_AXN*new_video_count)//(const.MAX_WORKERS + const.MIN_NO_AXN)) - pi_video_count
+    assign_ec2 = 0  # total_videos - assign_pi
+    
+    # if pi_video_count+new_video_count <= const.MIN_NO_AXN:
+    #     return new_video_count, 0
+    # else:
+    #     if pending_msg_count > const.MAX_WORKERS - const.MIN_NO_AXN:
+    #         # say there are 23 new vids, pi threshold(4) and max(19) ec2 workers are running, divide 4:19
+    #         distribute_load = floor((new_video_count)/const.MIN_NO_AXN)-1
+    #         # distribute_load = int((const.MIN_NO_AXN*new_video_count)//(const.MAX_WORKERS + const.MIN_NO_AXN))
+    #         return distribute_load, new_video_count-distribute_load
+    #     else:
+    #         assign_pi = const.MIN_NO_AXN - pi_video_count
+    #         return assign_pi, new_video_count-assign_pi
+    
+    while new_video_count>0:
+        if pi_video_count+assign_pi < const.MIN_NO_AXN:
+            # assign for pi less than threshold
+            temp = min(new_video_count, const.MIN_NO_AXN - pi_video_count)
+            new_video_count -= temp
+            assign_pi += temp
+        else:
+            if pending_msg_count+assign_ec2< const.MAX_WORKERS:
+                # assign for new ec2
+                temp = min(new_video_count, const.MAX_WORKERS - pending_msg_count)
+                new_video_count -= temp
+                assign_ec2 += temp
+                # assign for value of threshold
+            else:
+                temp = min(const.MIN_NO_AXN,new_video_count)
+                new_video_count -= temp
+                assign_pi+=temp
+
+                # assign one each for all ec2 instances
+                temp = min(const.MAX_WORKERS,new_video_count)
+                new_video_count -= temp
+                assign_ec2 += temp
+                # if new_video_count>0:
+                #     temp += min(const.MAX_WORKERS,new_video_count)
+                #     new_video_count -= temp
+                #     assign_ec2 +=temp
+    print("\nCurrent: Pi {} EC2 {}".format(pi_video_count,pending_msg_count))
+    print("\nNew: Pi {} EC2 {}\n".format(pi_video_count+assign_pi,pending_msg_count+assign_ec2))
+    return assign_pi,assign_ec2
 
 if __name__ == '__main__':
 
