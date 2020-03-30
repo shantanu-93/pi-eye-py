@@ -10,6 +10,7 @@ import s3_util as s3_util
 # from find_most_recent import allFilesIn
 import time
 from math import ceil,floor
+from botocore.exceptions import ClientError
 
 const = GlobalConstants()
 
@@ -111,8 +112,16 @@ if __name__ == '__main__':
                 print("\n Time taken to move to pi videos: ",time.time()-start)
                 # upload videos to s3
                 if ec2 > 0:
-                    move_to_ec2 = list(set(list_of_files) - set(moved_to_pi)) #glob.glob(recording_vids)
-                    s3_util.upload_videos(move_to_ec2)
+                    move_to_ec2 = glob.glob(recording_vids) #list(set(list_of_files) - set(moved_to_pi)) #
+                    try:
+                        s3_util.upload_videos(move_to_ec2)
+                    except ClientError:
+                        print("Files to upload %s" %move_to_ec2)
+                        print("Botocore error: " + str(sys.exc_info()[0]))
+                        continue
+                    except:
+                        print("Unexpected error: " + str(sys.exc_info()[0]))
+                        continue
                     print("\n Time taken to upload to s3 {}, count {}".format(time.time()-start, len(move_to_ec2)))
 
                     # move videos to /analysis_queue_videos and push to sqs
