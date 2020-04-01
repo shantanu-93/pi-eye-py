@@ -70,7 +70,7 @@ def get_result_time_stamp(filename):
 if __name__ == "__main__":
 
     s3_client = boto3.client('s3',
-    aws_access_key_id='AKIA23OOWAPBPSRM2BMP',
-    aws_secret_access_key='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',
+    aws_access_key_id='',
+    aws_secret_access_key='',
     region_name='us-east-1')
 
