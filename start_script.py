@@ -1,4 +1,4 @@
 #!/usr/bin/python
-
-
-print('hello testing')
+python .\surveillance_cfs.py
+python3 .\upload_script.py
+python3 .\analyze_pi.py
