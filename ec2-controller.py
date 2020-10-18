@@ -7,17 +7,21 @@ import time
 const = GlobalConstants()
 
 if __name__ == "__main__":
+    unrecoverable = ['shutting-down','terminated']
+    up = ['pending','running']
+    down = ['stopping','stopped']
     try:
         while True:
             instances = ec2.get_ec2_ids_state()
-            active_instances = len([k for k,v in instances.items() if v == 'stopped' or v == 'running']) - 1
+            active_instances = len([k for k,v in instances.items() if v not in unrecoverable]) - 1
             # print(instances)
             watiing_msg_count = int(queue_util.get_msg_count(queue_util.get_queue_url(const.ANALYSIS_QUEUE)))
             print("Messages in queue:\n" + str(watiing_msg_count))
+            
             if watiing_msg_count:
-                stopped_instances = [k for k,v in instances.items() if v == 'stopped']
+                stopped_instances = [k for k,v in instances.items() if v not in unrecoverable and v not in up]
                 # print(stopped_instances)
-                start_count = min(len(stopped_instances), watiing_msg_count)
+                start_count = min(stopped_instances, watiing_msg_count)
                 # print(start_count)
                 create_count = 0
                 if start_count < watiing_msg_count:
